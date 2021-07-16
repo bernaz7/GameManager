@@ -1,4 +1,4 @@
-package com.example.gamemanager.ui.slideshow;
+package com.example.gamemanager.ui.polls;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

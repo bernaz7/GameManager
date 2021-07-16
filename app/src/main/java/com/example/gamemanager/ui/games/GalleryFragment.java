@@ -1,4 +1,4 @@
-package com.example.gamemanager.ui.gallery;
+package com.example.gamemanager.ui.games;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

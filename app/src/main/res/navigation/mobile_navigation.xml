@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_gangs"
-        android:name="com.example.gamemanager.ui.home.HomeFragment"
+        android:name="com.example.gamemanager.ui.gangs.HomeFragment"
         android:label="@string/menu_gangs"
         tools:layout="@layout/fragment_gangs" />
 
     <fragment
         android:id="@+id/nav_games"
-        android:name="com.example.gamemanager.ui.gallery.GalleryFragment"
+        android:name="com.example.gamemanager.ui.games.GalleryFragment"
         android:label="@string/menu_games"
         tools:layout="@layout/fragment_games" />
 
     <fragment
         android:id="@+id/nav_polls"
-        android:name="com.example.gamemanager.ui.slideshow.SlideshowFragment"
+        android:name="com.example.gamemanager.ui.polls.SlideshowFragment"
         android:label="@string/menu_polls"
         tools:layout="@layout/fragment_polls" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.gamemanager.ui.home;
+package com.example.gamemanager.ui.gangs;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

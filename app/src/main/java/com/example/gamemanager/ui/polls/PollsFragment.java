@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gamemanager.R;
 
-public class SlideshowFragment extends Fragment {
+public class PollsFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private PollsViewModel pollsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        pollsViewModel =
+                new ViewModelProvider(this).get(PollsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_polls, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        pollsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

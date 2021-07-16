@@ -8,7 +8,7 @@ import com.example.gamemanager.GameManagerApp;
 
 @Database(entities = {Gang.class}, version = 1)
 abstract class AppLocalDbRepository extends RoomDatabase {
-    public abstract GangDao studentDao();
+    public abstract GangDao gangDao();
 }
 public class AppLocalDB {
     final static public AppLocalDbRepository db =

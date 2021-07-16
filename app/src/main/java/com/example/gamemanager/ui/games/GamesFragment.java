@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gamemanager.R;
 
-public class GalleryFragment extends Fragment {
+public class GamesFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private GamesViewModel gamesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+        gamesViewModel =
+                new ViewModelProvider(this).get(GamesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_games, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        gamesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

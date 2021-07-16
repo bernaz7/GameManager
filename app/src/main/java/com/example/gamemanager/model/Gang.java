@@ -8,6 +8,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.gamemanager.GameManagerApp;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -86,8 +88,7 @@ public class Gang {
         json.put(NAME, name);
         json.put(MANAGER, manager);
         //json.put(MEMBERS, members);
-        //TODO: after firebase:
-        // json.put(LAST_UPDATED, FieldValue.serverTimestamp());
+        json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         json.put(IS_DELETED, isDeleted);
         return json;
     }
@@ -99,14 +100,13 @@ public class Gang {
         st.manager = (String)json.get(MANAGER);
         //st.members = (int[])json.get(MEMBERS);
 
-        //TODO: after firebase
-        // Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
-//        if(ts != null) {
-//            st.lastUpdated = new Long(ts.getSeconds());
-//        }
-//        else {
-//            st.lastUpdated = new Long(0);
-//        }
+        Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
+        if(ts != null) {
+            st.lastUpdated = new Long(ts.getSeconds());
+        }
+        else {
+            st.lastUpdated = new Long(0);
+        }
         st.isDeleted = (Boolean) json.get(IS_DELETED);
         if (st.isDeleted == null) {
             st.isDeleted = false;

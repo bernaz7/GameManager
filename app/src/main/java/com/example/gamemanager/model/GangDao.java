@@ -18,5 +18,5 @@ public interface GangDao {
     void insertAll(Gang... gangs);
 
     @Delete
-    void delete(Gang student);
+    void delete(Gang gang);
 }

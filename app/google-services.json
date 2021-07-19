@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "400076721955",
+    "project_id": "android-2021b-students",
+    "storage_bucket": "android-2021b-students.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400076721955:android:e23c5783486585df798696",
+        "android_client_info": {
+          "package_name": "com.example.gamemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400076721955-3davo3pp5pht0c6f6ktmfufbjj99pscl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsTbhVDiZS20zxii9M6KbxoakoH6kFie4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400076721955-3davo3pp5pht0c6f6ktmfufbjj99pscl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,16 +4,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gamemanager.model.Gang;
+import com.example.gamemanager.model.Model;
+
+import java.util.List;
+
 public class GangsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    public LiveData<List<Gang>> gangsList;
 
-    public GangsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gang fragment");
+    public GangsViewModel() { gangsList = Model.instance.getAllGangs(); }
+
+    public LiveData<List<Gang>> getData() {
+        return gangsList;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void refresh() {
+        Model.instance.getAllGangs();
     }
 }

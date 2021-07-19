@@ -14,7 +14,7 @@ public class AppLocalDB {
     final static public AppLocalDbRepository db =
             Room.databaseBuilder(GameManagerApp.context,
                     AppLocalDbRepository.class,
-                    "GameManager.db")
+                    "dbFileName.db")
                     .fallbackToDestructiveMigration()
                     .build();
 }

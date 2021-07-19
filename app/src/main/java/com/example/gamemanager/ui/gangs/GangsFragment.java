@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,9 +18,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.Gang;
+import com.example.gamemanager.model.Model;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +31,9 @@ public class GangsFragment extends Fragment {
     private GangsViewModel gangsViewModel;
     FloatingActionButton addBtn;
     MyAdapter adapter;
+    SwipeRefreshLayout swipeRefresh;
+    ProgressBar progressBar;
+    ListView list;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +46,19 @@ public class GangsFragment extends Fragment {
                 });
 
         View root = inflater.inflate(R.layout.fragment_gangs, container, false);
-        final TextView textView = root.findViewById(R.id.ganglist_textview);
+
+        list = root.findViewById(R.id.ganglist_listv);
+        adapter = new MyAdapter();
+        list.setAdapter(adapter);
+        setupProgressListener();
+
+        progressBar = root.findViewById(R.id.ganglist_progressbar);
+        progressBar.setVisibility(View.GONE);
+
+        swipeRefresh = root.findViewById(R.id.ganglist_swiperefresh);
+        swipeRefresh.setOnRefreshListener(()-> {
+            gangsViewModel.refresh();
+        });
 
         addBtn = root.findViewById(R.id.ganglist_add_btn);
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +69,23 @@ public class GangsFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void setupProgressListener() {
+        Model.instance.gangsLoadingState.observe(getViewLifecycleOwner(),(state)-> {
+            switch (state) {
+                case loaded:
+                    progressBar.setVisibility(View.GONE);
+                    swipeRefresh.setRefreshing(false);
+                    break;
+                case loading:
+                    progressBar.setVisibility(View.VISIBLE);
+//                    swipeRefresh.setRefreshing(true); // already have progressbar while loading
+                    break;
+                case error:
+                    //TODO: display error msg
+            }
+        });
     }
 
     class MyAdapter extends BaseAdapter {

@@ -1,25 +1,34 @@
 package com.example.gamemanager.model;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
+import com.example.gamemanager.GameManagerApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApiNotAvailableException;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ModelFirebase {
     final static String gangsCollection = "gangs";
     private ModelFirebase(){}
-
-
 
     public interface GetAllGangsListener {
         public void onComplete(List<Gang> gangs);

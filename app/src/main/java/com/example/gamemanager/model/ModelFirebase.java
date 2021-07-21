@@ -50,6 +50,7 @@ public class ModelFirebase {
                             }
                         } else {
                         }
+
                         listener.onComplete(list);
                     }
                 });
@@ -57,11 +58,12 @@ public class ModelFirebase {
 
     public static void saveGang(Gang gang, Model.onCompleteListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(gangsCollection)
-                .add(gang.toJson())
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection(gangsCollection).document(gang.id.toString())
+                .set(gang.toJson())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
+                        Gang.uniqueId++;
                         listener.onComplete();
                     }
                 })

@@ -16,14 +16,15 @@ import java.util.Map;
 
 @Entity
 public class Gang {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-    public String id;
+    public Long id ;
     public String name;
     public String manager;
     //public int[] members; TODO: add members
     public Long lastUpdated;
     public Boolean isDeleted;
+    public static Long uniqueId = Long.valueOf(0);
 
     final static String ID = "id";
     final static String NAME = "name";
@@ -34,11 +35,11 @@ public class Gang {
     final static String IS_DELETED = "isDeleted";
 
     @NonNull
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(@NonNull Long id) {
         this.id = id;
     }
 
@@ -94,24 +95,24 @@ public class Gang {
     }
 
     static public Gang create(Map<String, Object> json) {
-        Gang st = new Gang();
-        st.id = (String)json.get(ID);
-        st.name = (String)json.get(NAME);
-        st.manager = (String)json.get(MANAGER);
+        Gang gang = new Gang();
+        gang.id = (Long) json.get(ID);
+        gang.name = (String)json.get(NAME);
+        gang.manager = (String)json.get(MANAGER);
         //st.members = (int[])json.get(MEMBERS);
 
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         if(ts != null) {
-            st.lastUpdated = new Long(ts.getSeconds());
+            gang.lastUpdated = new Long(ts.getSeconds());
         }
         else {
-            st.lastUpdated = new Long(0);
+            gang.lastUpdated = new Long(0);
         }
-        st.isDeleted = (Boolean) json.get(IS_DELETED);
-        if (st.isDeleted == null) {
-            st.isDeleted = false;
+        gang.isDeleted = (Boolean) json.get(IS_DELETED);
+        if (gang.isDeleted == null) {
+            gang.isDeleted = false;
         }
-        return st;
+        return gang;
     }
 
     static public void setLocalLastUpdateTime (Long ts) {

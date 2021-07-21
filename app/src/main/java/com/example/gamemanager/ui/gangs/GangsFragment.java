@@ -92,8 +92,11 @@ public class GangsFragment extends Fragment {
 
         @Override
         public int getCount() {
-            if(gangsViewModel.getData().getValue() != null)
-                return gangsViewModel.getData().getValue().size();
+            if(gangsViewModel.getData().getValue() != null) {
+                int length = gangsViewModel.getData().getValue().size();
+                Gang.uniqueId = Long.valueOf(length);
+                return length;
+            }
             else
                 return 0;
         }
@@ -108,7 +111,7 @@ public class GangsFragment extends Fragment {
             TextView nameTv = convertView.findViewById(R.id.gangrow_name);
             Gang gang = gangsViewModel.getData().getValue().get(position);
             nameTv.setText(gang.getName());
-            idTv.setText(gang.getId());
+            //idTv.setText(gang.getId());
             imageV.setImageResource(R.drawable.download);
             //TODO: gang image
 //            if(student.avatar != null && student.avatar != "") {

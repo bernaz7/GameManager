@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.room.EntityDeletionOrUpdateAdapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static com.example.gamemanager.model.Gang.uniqueId;
 
 
 public class NewGangFragment extends Fragment {
@@ -45,15 +45,16 @@ public class NewGangFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
                 saveBtn.setEnabled(false);
 
-                saveGang(null);
+                saveGang();
             }
         });
 
         return view;
     }
 
-    private void saveGang(Object o) {
+    private void saveGang() {
         Gang gang = new Gang();
+        gang.setId(uniqueId);
         gang.setName(nameEt.getText().toString());
         Model.instance.saveGang(gang, ()-> {
             Navigation.findNavController(view).navigateUp();

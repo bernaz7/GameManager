@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "400076721955-q9apa3pon77bms2k8vv55v90sgln0m0j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gamemanager",
+            "certificate_hash": "cd4196d9f7d1575ffdf7e8ab740712b6bac69955"
+          }
+        },
+        {
           "client_id": "400076721955-3davo3pp5pht0c6f6ktmfufbjj99pscl.apps.googleusercontent.com",
           "client_type": 3
         }

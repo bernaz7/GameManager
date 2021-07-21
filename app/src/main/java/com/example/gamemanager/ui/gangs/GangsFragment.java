@@ -96,6 +96,7 @@ public class GangsFragment extends Fragment {
                 int length = gangsViewModel.getData().getValue().size();
                 Gang.uniqueId = Long.valueOf(length);
                 return length;
+                //test develop
             }
             else
                 return 0;

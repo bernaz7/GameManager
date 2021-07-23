@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.gamemanager.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +42,9 @@ public class AuthLoginFragment extends Fragment {
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
+    NavigationView navigationView;
+    View emailView;
+    TextView navEmail;
 
 
     @Override
@@ -56,6 +60,10 @@ public class AuthLoginFragment extends Fragment {
 
         badLoginTv = root.findViewById(R.id.login_badlogin_tv);
         badLoginTv.setVisibility(View.INVISIBLE);
+
+        navigationView =  getActivity().findViewById(R.id.nav_view);
+        emailView = navigationView.getHeaderView(0);
+        navEmail = (TextView)emailView.findViewById(R.id.textView);
 
 
         progressDialog = new ProgressDialog(root.getContext());
@@ -128,6 +136,7 @@ public class AuthLoginFragment extends Fragment {
                                 })
                                 .show();
                         // do logged in stuff here
+                        navEmail.setText(email);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -5,14 +5,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamemanager.R;
@@ -22,6 +25,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 public class AuthLoginFragment extends Fragment {
 
     private Button loginBtn;
@@ -29,6 +36,8 @@ public class AuthLoginFragment extends Fragment {
     private String password="";
     EditText emailEt;
     EditText passwordEt;
+    TextView gotAccountTv;
+    TextView badLoginTv;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
@@ -43,10 +52,13 @@ public class AuthLoginFragment extends Fragment {
         emailEt = root.findViewById(R.id.login_email_et);
         passwordEt = root.findViewById(R.id.login_password_et);
         loginBtn = root.findViewById(R.id.login_login_btn);
+        gotAccountTv = root.findViewById(R.id.login_gotacccount_tv);
+
+        badLoginTv = root.findViewById(R.id.login_badlogin_tv);
+        badLoginTv.setVisibility(View.INVISIBLE);
 
 
-
-        progressDialog = new ProgressDialog(getView().getContext());
+        progressDialog = new ProgressDialog(root.getContext());
         progressDialog.setTitle("Please wait");
         progressDialog.setMessage("Logging in");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -55,11 +67,14 @@ public class AuthLoginFragment extends Fragment {
         firebaseAuth = firebaseAuth.getInstance();
         checkUser();
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validateData();
-            }
+        loginBtn.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            validateData();
+        });
+
+        gotAccountTv.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_authLoginFragment_to_authSignupFragment);
         });
         return root;
     }
@@ -98,16 +113,28 @@ public class AuthLoginFragment extends Fragment {
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         String email = firebaseUser.getEmail();
-                        Toast.makeText(getActivity(), "Logged in\n"+email, Toast.LENGTH_SHORT).show();
+                        badLoginTv.setVisibility(View.INVISIBLE);
 
-                        // navigate?
+                        progressDialog.dismiss();
+                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                                .setTitleText("Successfully logged in!")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        Navigation.findNavController(getView()).navigateUp();
+                                    }
+                                })
+                                .show();
+                        // do logged in stuff here
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        badLoginTv.setVisibility(View.VISIBLE);
                     }
                 });
     }

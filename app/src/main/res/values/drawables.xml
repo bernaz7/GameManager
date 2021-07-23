@@ -1,4 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item name="menu_home" type="drawable">@drawable/menu_home</item>
     <item name="ic_menu_gangs" type="drawable">@android:drawable/ic_menu_camera</item>
     <item name="ic_menu_games" type="drawable">@android:drawable/ic_menu_gallery</item>
     <item name="ic_menu_polls" type="drawable">@android:drawable/ic_menu_slideshow</item>

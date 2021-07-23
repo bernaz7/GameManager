@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_gangs">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/nav_gangs"
@@ -31,4 +31,36 @@
         android:name="com.example.gamemanager.ui.gangs.NewGangFragment"
         android:label="fragment_new_gang"
         tools:layout="@layout/fragment_new_gang" />
+    <fragment
+        android:id="@+id/authLoginFragment"
+        android:name="com.example.gamemanager.ui.authentication.AuthLoginFragment"
+        android:label="fragment_auth_login"
+        tools:layout="@layout/fragment_auth_login" >
+        <action
+            android:id="@+id/action_authLoginFragment_to_authSignupFragment"
+            app:destination="@id/authSignupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authProfileFragment"
+        android:name="com.example.gamemanager.ui.authentication.AuthProfileFragment"
+        android:label="fragment_auth_profile"
+        tools:layout="@layout/fragment_auth_profile" />
+    <fragment
+        android:id="@+id/authSignupFragment"
+        android:name="com.example.gamemanager.ui.authentication.AuthSignupFragment"
+        android:label="fragment_auth_signup"
+        tools:layout="@layout/fragment_auth_signup" >
+        <action
+            android:id="@+id/action_authSignupFragment_to_authLoginFragment"
+            app:destination="@id/authLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.gamemanager.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_authLoginFragment"
+            app:destination="@id/authLoginFragment" />
+    </fragment>
 </navigation>

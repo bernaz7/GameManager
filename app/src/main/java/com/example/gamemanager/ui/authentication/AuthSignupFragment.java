@@ -1,10 +1,14 @@
 package com.example.gamemanager.ui.authentication;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -13,6 +17,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,6 +28,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class AuthSignupFragment extends Fragment {
 
@@ -44,15 +53,18 @@ public class AuthSignupFragment extends Fragment {
 
         //init firebase auth
         firebaseAuth = firebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(getView().getContext());
+        progressDialog = new ProgressDialog(root.getContext());
         progressDialog.setTitle("Please wait");
         progressDialog.setMessage("Creating your account");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        signupBtn = getView().findViewById(R.id.signup_signup_btn);
+
+        signupBtn = root.findViewById(R.id.signup_signup_btn);
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                 validateData();
             }
         });
@@ -93,10 +105,18 @@ public class AuthSignupFragment extends Fragment {
                         progressDialog.dismiss();
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         String email = firebaseUser.getEmail();
-                        Toast.makeText(getActivity(), "Account created\n"+email, Toast.LENGTH_SHORT).show();
-
-                        // TODO: navigate to profile fragment
-                        //Navigation.findNavController(v).navigate(R.id.action_profile_open);
+                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                                .setTitleText("Successfully signed up!")
+                                .setContentText("Please login")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        Navigation.findNavController(getView()).navigateUp();
+                                    }
+                                })
+                                .show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

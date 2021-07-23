@@ -113,8 +113,6 @@ public class GangsFragment extends Fragment {
 //                Picasso.get().load(student.avatar).placeholder(R.drawable.download)
 //                        .error(R.drawable.download).into(imageV);
 //            }
-
-
             return convertView;
         }
 

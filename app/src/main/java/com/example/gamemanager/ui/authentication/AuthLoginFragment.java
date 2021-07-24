@@ -88,13 +88,6 @@ public class AuthLoginFragment extends Fragment {
         return root;
     }
 
-    private void checkUser() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser != null) {
-            //navigate to profile fragment?
-        }
-    }
-
     private void validateData() {
         email = emailEt.getText().toString().trim();
         password = passwordEt.getText().toString().trim();
@@ -138,6 +131,7 @@ public class AuthLoginFragment extends Fragment {
                             }
                         })
                         .show();
+
                 navEmail.setText(email);
             }
 
@@ -148,6 +142,30 @@ public class AuthLoginFragment extends Fragment {
             }
         });
     }
+
+//    private void checkUser() {
+//        ModelFirebase.checkUser(new ModelFirebase.FirebaseCheckUserListener() {
+//            @Override
+//            public void OnLoggedIn(FirebaseUser firebaseUser) {
+//                // user already logged in
+//                Navigation.findNavController(getView()).navigateUp();
+//            }
+//
+//            @Override
+//            public void OnLoggedOut() {
+//                // run login here
+//                Login();
+//            }
+//        });
+//    }
+        private void checkUser() {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(firebaseUser != null) {
+            //navigate to profile fragment?
+        }
+    }
+
+
 //    private void firebaseLogin() {
 //        progressDialog.show();
 //        firebaseAuth.signInWithEmailAndPassword(email,password)

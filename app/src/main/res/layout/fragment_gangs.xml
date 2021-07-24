@@ -7,26 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.gangs.GangsFragment">
 
-
-    <ProgressBar
-        android:id="@+id/ganglist_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible"
-        android:indeterminate="true"/>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/ganglist_swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ganglist_progressbar" >
+        app:layout_constraintStart_toStartOf="parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ganglist_recyclerv"
             android:layout_width="0dp"

@@ -30,7 +30,7 @@ public class GangsFragment extends Fragment {
     FloatingActionButton addBtn;
     GangAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
-    ProgressBar progressBar;
+//    ProgressBar progressBar;
     RecyclerView list;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,8 +54,8 @@ public class GangsFragment extends Fragment {
         list.setAdapter(adapter);
         setupProgressListener();
 
-        progressBar = root.findViewById(R.id.ganglist_progressbar);
-        progressBar.setVisibility(View.GONE);
+//        progressBar = root.findViewById(R.id.ganglist_progressbar);
+//        progressBar.setVisibility(View.GONE);
 
         swipeRefresh = root.findViewById(R.id.ganglist_swiperefresh);
         swipeRefresh.setOnRefreshListener(()-> {
@@ -77,12 +77,12 @@ public class GangsFragment extends Fragment {
         Model.instance.gangsLoadingState.observe(getViewLifecycleOwner(),(state)-> {
             switch (state) {
                 case loaded:
-                    progressBar.setVisibility(View.GONE);
+//                    progressBar.setVisibility(View.GONE);
                     swipeRefresh.setRefreshing(false);
                     break;
                 case loading:
-                    progressBar.setVisibility(View.VISIBLE);
-//                    swipeRefresh.setRefreshing(true); // already have progressbar while loading
+//                    progressBar.setVisibility(View.VISIBLE);
+                    swipeRefresh.setRefreshing(true); // already have progressbar while loading
                     break;
                 case error:
                     //TODO: display error msg

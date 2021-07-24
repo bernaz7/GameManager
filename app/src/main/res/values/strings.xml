@@ -17,5 +17,7 @@
     <string name="don_t_have_an_account_register">Don\'t have an account? <b>Register now!</b></string>
     <string name="welcome_home">Welcome to GameManager!\n
         Please <b>Log in</b> to enjoy the app :D</string>
+    <string name="home_welcome">Welcome to GameManager.\n Please use the navigation drawer to navigate through the application :)</string>
+    <string name="anon_user">Anonymous</string>
 
 </resources>

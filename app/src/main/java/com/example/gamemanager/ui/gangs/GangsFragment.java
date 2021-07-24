@@ -100,8 +100,13 @@ public class GangsFragment extends Fragment {
         }
 
         public void bind(Gang gang) {
-            //imageV.setImageResource();
             nameTv.setText(gang.getName());
+//            imageV.setImageResource(R.drawable.download);
+            //TODO: gang image
+//            if(student.avatar != null && student.avatar != "") {
+//                Picasso.get().load(student.avatar).placeholder(R.drawable.download)
+//                        .error(R.drawable.download).into(imageV);
+//            }
         }
     }
 
@@ -130,45 +135,5 @@ public class GangsFragment extends Fragment {
             else
                 return 0;
         }
-
-
-//        @Override
-//        public int getCount() {
-//            if(gangsViewModel.getData().getValue() != null) {
-//                int length = gangsViewModel.getData().getValue().size();
-//                Gang.uniqueId = Long.valueOf(length); // get size of list to update unique id of gangs
-//                return length;
-//            }
-//            else
-//                return 0;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            if(convertView == null) {
-//                convertView = getLayoutInflater().inflate(R.layout.gang_list_row,null);
-//            }
-//            ImageView imageV = convertView.findViewById(R.id.gangrow_imagev);
-//            TextView nameTv = convertView.findViewById(R.id.gangrow_name);
-//            Gang gang = gangsViewModel.getData().getValue().get(position);
-//            nameTv.setText(gang.getName());
-//            imageV.setImageResource(R.drawable.download);
-//            //TODO: gang image
-////            if(student.avatar != null && student.avatar != "") {
-////                Picasso.get().load(student.avatar).placeholder(R.drawable.download)
-////                        .error(R.drawable.download).into(imageV);
-////            }
-//            return convertView;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
     }
 }

@@ -49,7 +49,7 @@
         android:id="@+id/authSignupFragment"
         android:name="com.example.gamemanager.ui.authentication.AuthRegisterFragment"
         android:label="fragment_auth_signup"
-        tools:layout="@layout/fragment_auth_signup" >
+        tools:layout="@layout/fragment_auth_register" >
         <action
             android:id="@+id/action_authSignupFragment_to_authLoginFragment"
             app:destination="@id/authLoginFragment" />

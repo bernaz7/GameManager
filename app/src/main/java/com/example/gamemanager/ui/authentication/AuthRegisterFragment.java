@@ -1,14 +1,8 @@
 package com.example.gamemanager.ui.authentication;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -45,7 +39,7 @@ public class AuthRegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_auth_signup, container, false);
+        View root = inflater.inflate(R.layout.fragment_auth_register, container, false);
         emailEt = root.findViewById(R.id.register_email_et);
         passwordEt = root.findViewById(R.id.register_password_et);
 

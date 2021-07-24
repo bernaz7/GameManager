@@ -106,19 +106,4 @@ public class ModelFirebase {
                     }
                 });
     }
-
-    public interface FirebaseCheckUserListener {
-        public void OnLoggedIn(FirebaseUser firebaseUser);
-        public void OnLoggedOut();
-    }
-
-    public static void checkUser(FirebaseCheckUserListener listener) {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser != null){
-            listener.OnLoggedIn(firebaseUser);
-        }
-        else
-            listener.OnLoggedOut();
-    }
 }

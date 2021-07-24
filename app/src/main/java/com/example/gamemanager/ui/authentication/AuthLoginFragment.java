@@ -41,7 +41,6 @@ public class AuthLoginFragment extends Fragment {
     TextView gotAccountTv;
     TextView badLoginTv;
     private ProgressDialog progressDialog;
-    private FirebaseAuth firebaseAuth;
 
     NavigationView navigationView;
     View emailView;
@@ -71,10 +70,6 @@ public class AuthLoginFragment extends Fragment {
         progressDialog.setTitle("Please wait");
         progressDialog.setMessage("Logging in");
         progressDialog.setCanceledOnTouchOutside(false);
-
-        //init firebase auth
-        firebaseAuth = firebaseAuth.getInstance();
-        checkUser();
 
         loginBtn.setOnClickListener(v -> {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
@@ -142,62 +137,4 @@ public class AuthLoginFragment extends Fragment {
             }
         });
     }
-
-//    private void checkUser() {
-//        ModelFirebase.checkUser(new ModelFirebase.FirebaseCheckUserListener() {
-//            @Override
-//            public void OnLoggedIn(FirebaseUser firebaseUser) {
-//                // user already logged in
-//                Navigation.findNavController(getView()).navigateUp();
-//            }
-//
-//            @Override
-//            public void OnLoggedOut() {
-//                // run login here
-//                Login();
-//            }
-//        });
-//    }
-        private void checkUser() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser != null) {
-            //navigate to profile fragment?
-        }
-    }
-
-
-//    private void firebaseLogin() {
-//        progressDialog.show();
-//        firebaseAuth.signInWithEmailAndPassword(email,password)
-//                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-//                    @Override
-//                    public void onSuccess(AuthResult authResult) {
-//                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//                        String email = firebaseUser.getEmail();
-//                        badLoginTv.setVisibility(View.INVISIBLE);
-//
-//                        progressDialog.dismiss();
-//                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
-//                                .setTitleText("Successfully logged in!")
-//                                .setConfirmText("OK")
-//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                                    @Override
-//                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                                        sweetAlertDialog.dismiss();
-//                                        Navigation.findNavController(getView()).navigateUp();
-//                                    }
-//                                })
-//                                .show();
-//                        // do logged in stuff here
-//                        navEmail.setText(email);
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        progressDialog.dismiss();
-//                        badLoginTv.setVisibility(View.VISIBLE);
-//                    }
-//                });
-//    }
 }

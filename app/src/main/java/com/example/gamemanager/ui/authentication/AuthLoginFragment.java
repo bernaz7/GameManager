@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamemanager.R;
+import com.example.gamemanager.model.ModelFirebase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -109,42 +110,76 @@ public class AuthLoginFragment extends Fragment {
         }
         else {
             // everything is valid
-            firebaseLogin();
+            Login();
         }
     }
 
-    private void firebaseLogin() {
-        progressDialog.show();
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        String email = firebaseUser.getEmail();
-                        badLoginTv.setVisibility(View.INVISIBLE);
-
-                        progressDialog.dismiss();
-                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
-                                .setTitleText("Successfully logged in!")
-                                .setConfirmText("OK")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                        Navigation.findNavController(getView()).navigateUp();
-                                    }
-                                })
-                                .show();
-                        // do logged in stuff here
-                        navEmail.setText(email);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        badLoginTv.setVisibility(View.VISIBLE);
-                    }
-                });
+    public interface onCompleteListener {
+        void onComplete();
+        void onFailure();
     }
+    onCompleteListener listener;
+
+    private void Login() {
+        progressDialog.show();
+        ModelFirebase.firebaseLogin(email, password, new ModelFirebase.FirebaseLoginListener() {
+            @Override
+            public void OnFirebaseLoginSuccess(FirebaseUser user) {
+                badLoginTv.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
+                new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                        .setTitleText("Successfully logged in!")
+                        .setConfirmText("OK")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                Navigation.findNavController(getView()).navigateUp();
+                            }
+                        })
+                        .show();
+                navEmail.setText(email);
+            }
+
+            @Override
+            public void OnFirebaseLoginFailure() {
+                progressDialog.dismiss();
+                badLoginTv.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+//    private void firebaseLogin() {
+//        progressDialog.show();
+//        firebaseAuth.signInWithEmailAndPassword(email,password)
+//                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                    @Override
+//                    public void onSuccess(AuthResult authResult) {
+//                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//                        String email = firebaseUser.getEmail();
+//                        badLoginTv.setVisibility(View.INVISIBLE);
+//
+//                        progressDialog.dismiss();
+//                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+//                                .setTitleText("Successfully logged in!")
+//                                .setConfirmText("OK")
+//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                                        sweetAlertDialog.dismiss();
+//                                        Navigation.findNavController(getView()).navigateUp();
+//                                    }
+//                                })
+//                                .show();
+//                        // do logged in stuff here
+//                        navEmail.setText(email);
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        progressDialog.dismiss();
+//                        badLoginTv.setVisibility(View.VISIBLE);
+//                    }
+//                });
+//    }
 }

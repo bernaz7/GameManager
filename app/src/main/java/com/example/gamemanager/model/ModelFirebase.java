@@ -1,9 +1,12 @@
 package com.example.gamemanager.model;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 
 import com.example.gamemanager.GameManagerApp;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -11,9 +14,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,6 +32,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ModelFirebase {
     final static String gangsCollection = "gangs";
@@ -71,6 +80,29 @@ public class ModelFirebase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         listener.onComplete();
+                    }
+                });
+    }
+
+    public interface FirebaseLoginListener {
+        public void OnFirebaseLoginSuccess(FirebaseUser user);
+        public void OnFirebaseLoginFailure();
+    }
+
+    public static void firebaseLogin(String email, String password, FirebaseLoginListener listener) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        listener.OnFirebaseLoginSuccess(firebaseUser);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.OnFirebaseLoginFailure();
                     }
                 });
     }

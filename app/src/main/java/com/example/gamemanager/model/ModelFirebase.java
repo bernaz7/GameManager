@@ -3,9 +3,11 @@ package com.example.gamemanager.model;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.widget.Debug;
 import androidx.navigation.Navigation;
 
 import com.example.gamemanager.GameManagerApp;
@@ -103,6 +105,45 @@ public class ModelFirebase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         listener.OnFirebaseLoginFailure();
+                    }
+                });
+    }
+
+    public interface FirebaseCheckUserListener {
+        public void OnLoggedIn(FirebaseUser firebaseUser);
+        public void OnLoggedOut();
+    }
+
+    public static void checkUser(FirebaseCheckUserListener listener) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(firebaseUser != null){
+            listener.OnLoggedIn(firebaseUser);
+        }
+        else
+            listener.OnLoggedOut();
+    }
+
+    public interface FirebaseRegisterListener {
+        public void OnFirebaseRegisterSuccess(FirebaseUser user);
+        public void OnFirebaseRegisterFailure();
+    }
+
+    public static void firebaseRegister(String email, String password, FirebaseRegisterListener listener) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        listener.OnFirebaseRegisterSuccess(firebaseUser);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+//                        Log.d("TAG",e.getMessage());
+                        listener.OnFirebaseRegisterFailure();
                     }
                 });
     }

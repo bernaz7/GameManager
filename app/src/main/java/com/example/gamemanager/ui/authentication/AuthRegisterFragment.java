@@ -20,27 +20,25 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.gamemanager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.gamemanager.model.ModelFirebase;
+
 import com.google.firebase.auth.FirebaseUser;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-public class AuthSignupFragment extends Fragment {
+public class AuthRegisterFragment extends Fragment {
 
     EditText emailEt;
     EditText passwordEt;
-    Button signupBtn;
+    Button registerBtn;
+    TextView badRegisterTv;
     private String email ="";
     private String password ="";
-    private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
     @Override
@@ -48,19 +46,20 @@ public class AuthSignupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_auth_signup, container, false);
-        emailEt = root.findViewById(R.id.signup_email_et);
-        passwordEt = root.findViewById(R.id.signup_password_et);
+        emailEt = root.findViewById(R.id.register_email_et);
+        passwordEt = root.findViewById(R.id.register_password_et);
 
-        //init firebase auth
-        firebaseAuth = firebaseAuth.getInstance();
+        badRegisterTv = root.findViewById(R.id.register_badregister_tv);
+        badRegisterTv.setVisibility(View.INVISIBLE);
+
         progressDialog = new ProgressDialog(root.getContext());
         progressDialog.setTitle("Please wait");
         progressDialog.setMessage("Creating your account");
         progressDialog.setCanceledOnTouchOutside(false);
 
 
-        signupBtn = root.findViewById(R.id.signup_signup_btn);
-        signupBtn.setOnClickListener(new View.OnClickListener() {
+        registerBtn = root.findViewById(R.id.register_btn);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
@@ -92,39 +91,36 @@ public class AuthSignupFragment extends Fragment {
         }
         else {
             // everything is valid
-            firebaseSignUp();
+            Register();
         }
     }
 
-    private void firebaseSignUp() {
+    private void Register() {
         progressDialog.show();
-        firebaseAuth.createUserWithEmailAndPassword(email,password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        progressDialog.dismiss();
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        String email = firebaseUser.getEmail();
-                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
-                                .setTitleText("Successfully signed up!")
-                                .setContentText("Please login")
-                                .setConfirmText("OK")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                        Navigation.findNavController(getView()).navigateUp();
-                                    }
-                                })
-                                .show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        ModelFirebase.firebaseRegister(email, password, new ModelFirebase.FirebaseRegisterListener() {
+            @Override
+            public void OnFirebaseRegisterSuccess(FirebaseUser user) {
+                badRegisterTv.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
+                new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                        .setTitleText("Successfully signed up!")
+                        .setContentText("Please login")
+                        .setConfirmText("OK")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                Navigation.findNavController(getView()).navigateUp();
+                            }
+                        })
+                        .show();
+            }
+
+            @Override
+            public void OnFirebaseRegisterFailure() {
+                progressDialog.dismiss();
+                badRegisterTv.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

@@ -14,7 +14,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="don_t_have_an_account_sign_up">Don\'t have an account? <b>Sign up!</b></string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? <b>Register now!</b></string>
     <string name="welcome_home">Welcome to GameManager!\n
         Please <b>Log in</b> to enjoy the app :D</string>
 

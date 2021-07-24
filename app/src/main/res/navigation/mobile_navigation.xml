@@ -47,7 +47,7 @@
         tools:layout="@layout/fragment_auth_profile" />
     <fragment
         android:id="@+id/authSignupFragment"
-        android:name="com.example.gamemanager.ui.authentication.AuthSignupFragment"
+        android:name="com.example.gamemanager.ui.authentication.AuthRegisterFragment"
         android:label="fragment_auth_signup"
         tools:layout="@layout/fragment_auth_signup" >
         <action

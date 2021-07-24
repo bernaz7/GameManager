@@ -27,7 +27,7 @@ public class GangsFragment extends Fragment {
 
     private GangsViewModel gangsViewModel;
     FloatingActionButton addBtn;
-    MyAdapter adapter;
+    GangAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
     ProgressBar progressBar;
     ListView list;
@@ -45,7 +45,7 @@ public class GangsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_gangs, container, false);
 
         list = root.findViewById(R.id.ganglist_listv);
-        adapter = new MyAdapter();
+        adapter = new GangAdapter();
         list.setAdapter(adapter);
         setupProgressListener();
 
@@ -85,7 +85,7 @@ public class GangsFragment extends Fragment {
         });
     }
 
-    class MyAdapter extends BaseAdapter {
+    class GangAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {

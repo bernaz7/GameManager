@@ -2,6 +2,8 @@ package com.example.gamemanager.model;
 
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 
@@ -12,10 +14,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +31,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ModelFirebase {
     final static String gangsCollection = "gangs";
+    final static String userDataCollection = "userData";
     private ModelFirebase(){}
 
     public interface GetAllGangsListener {
@@ -86,6 +91,7 @@ public class ModelFirebase {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//                        Log.d("TAG",""+firebaseUser.getUid());
                         listener.OnFirebaseLoginSuccess(firebaseUser);
                     }
                 })
@@ -112,13 +118,20 @@ public class ModelFirebase {
         public void OnFirebaseRegisterFailure();
     }
 
-    public static void firebaseRegister(String email, String password, FirebaseRegisterListener listener) {
+
+    public static void firebaseRegister(String email, String password, UserData userData, FirebaseRegisterListener listener) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection(userDataCollection).document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .set(userData.toJson());
+//                        FirebaseDatabase.getInstance().getReference("UserData")
+//                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
                         listener.OnFirebaseRegisterSuccess(firebaseUser);
                     }
                 })

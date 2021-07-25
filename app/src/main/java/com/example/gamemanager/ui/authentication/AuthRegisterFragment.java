@@ -19,7 +19,9 @@ import android.widget.TextView;
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.ModelFirebase;
 
+import com.example.gamemanager.model.UserData;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.auth.User;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -29,10 +31,13 @@ public class AuthRegisterFragment extends Fragment {
 
     EditText emailEt;
     EditText passwordEt;
+    EditText fullnameEt;
     Button registerBtn;
     TextView badRegisterTv;
     private String email ="";
     private String password ="";
+    private String fullname="";
+
     private ProgressDialog progressDialog;
 
     @Override
@@ -42,6 +47,7 @@ public class AuthRegisterFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_auth_register, container, false);
         emailEt = root.findViewById(R.id.register_email_et);
         passwordEt = root.findViewById(R.id.register_password_et);
+        fullnameEt = root.findViewById(R.id.register_fullname_et);
 
         badRegisterTv = root.findViewById(R.id.register_badregister_tv);
         badRegisterTv.setVisibility(View.INVISIBLE);
@@ -69,6 +75,7 @@ public class AuthRegisterFragment extends Fragment {
     private void validateData() {
         email = emailEt.getText().toString().trim();
         password = passwordEt.getText().toString().trim();
+        fullname = fullnameEt.getText().toString().trim();
 
         // validate
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -83,6 +90,9 @@ public class AuthRegisterFragment extends Fragment {
             // password too short
             passwordEt.setError("Password must be at least 6 characters long");
         }
+        else if (TextUtils.isEmpty(fullname)){
+            fullnameEt.setError("Please enter fullname");
+        }
         else {
             // everything is valid
             Register();
@@ -91,11 +101,13 @@ public class AuthRegisterFragment extends Fragment {
 
     private void Register() {
         progressDialog.show();
-        ModelFirebase.firebaseRegister(email, password, new ModelFirebase.FirebaseRegisterListener() {
+        UserData userData = new UserData(fullname,email);
+        ModelFirebase.firebaseRegister(email, password, userData, new ModelFirebase.FirebaseRegisterListener() {
             @Override
             public void OnFirebaseRegisterSuccess(FirebaseUser user) {
                 badRegisterTv.setVisibility(View.INVISIBLE);
                 progressDialog.dismiss();
+
                 new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
                         .setTitleText("Successfully signed up!")
                         .setContentText("Please login")

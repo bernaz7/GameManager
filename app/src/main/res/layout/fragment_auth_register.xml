@@ -44,7 +44,6 @@
             android:id="@+id/register_email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:hint="Email"
             android:inputType="textEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,6 +54,8 @@
         android:layout_width="match_parent"
         app:passwordToggleEnabled="true"
         android:layout_height="wrap_content"
+        android:layout_above="@id/register_fullname_til"
+        android:layout_marginBottom="10dp">
         android:layout_centerInParent="true">
         <EditText
             android:id="@+id/register_password_et"
@@ -64,13 +65,27 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--FullName-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/register_fullname_til"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <EditText
+            android:id="@+id/register_fullname_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <!--register Button-->
     <Button
         android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/register_password_til"
+        android:layout_below="@id/register_fullname_til"
         android:text="register"/>
 
 </RelativeLayout>

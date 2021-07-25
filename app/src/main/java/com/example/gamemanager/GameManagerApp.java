@@ -7,6 +7,8 @@ import android.os.Looper;
 
 import androidx.core.os.HandlerCompat;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class GameManagerApp extends Application {
     public static Context context;
     public static final Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());

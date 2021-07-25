@@ -71,8 +71,5 @@
         android:name="com.example.gamemanager.ui.gangs.GangInfoFragment"
         android:label="fragment_gang_info"
         tools:layout="@layout/fragment_gang_info" >
-        <argument
-            android:name="gang"
-            app:argType="com.example.gamemanager.model.Gang" />
     </fragment>
 </navigation>

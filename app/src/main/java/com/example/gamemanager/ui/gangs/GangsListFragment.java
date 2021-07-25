@@ -118,17 +118,10 @@ public class GangsListFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(gang.getName().toString(),gang);
-                    Fragment fragment = new GangInfoFragment();
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getActivity(). getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.container, fragment);
-                    fragmentTransaction.commit();
-                    // navigate to info fragment of this gang.
-                    //Log.d("TAG","TEST"+gang.getName().toString());
 
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("gang",gang);
+                    Navigation.findNavController(v).navigate(R.id.action_nav_gangs_to_gangInfoFragment, bundle);
                 }
             });
 //            imageV.setImageResource(R.drawable.download);

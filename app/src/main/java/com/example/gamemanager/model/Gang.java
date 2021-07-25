@@ -11,11 +11,12 @@ import com.example.gamemanager.GameManagerApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Gang {
+public class Gang implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     public Long id ;

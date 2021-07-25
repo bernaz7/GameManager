@@ -7,12 +7,15 @@
 
     <fragment
         android:id="@+id/nav_gangs"
-        android:name="com.example.gamemanager.ui.gangs.GangsFragment"
+        android:name="com.example.gamemanager.ui.gangs.GangsListFragment"
         android:label="@string/menu_gangs"
-        tools:layout="@layout/fragment_gangs" >
+        tools:layout="@layout/fragment_gangs_list" >
         <action
             android:id="@+id/action_newgangfragment_open"
             app:destination="@id/newGangFragment" />
+        <action
+            android:id="@+id/action_nav_gangs_to_gangInfoFragment"
+            app:destination="@id/gangInfoFragment" />
     </fragment>
 
     <fragment
@@ -62,5 +65,14 @@
         <action
             android:id="@+id/action_homeFragment_to_authLoginFragment"
             app:destination="@id/authLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gangInfoFragment"
+        android:name="com.example.gamemanager.ui.gangs.GangInfoFragment"
+        android:label="fragment_gang_info"
+        tools:layout="@layout/fragment_gang_info" >
+        <argument
+            android:name="gang"
+            app:argType="com.example.gamemanager.model.Gang" />
     </fragment>
 </navigation>

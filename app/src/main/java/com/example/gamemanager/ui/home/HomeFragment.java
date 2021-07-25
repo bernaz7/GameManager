@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gamemanager.R;
+import com.example.gamemanager.model.Model;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeFragment extends Fragment {

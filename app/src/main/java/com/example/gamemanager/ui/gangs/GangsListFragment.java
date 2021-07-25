@@ -1,19 +1,23 @@
 package com.example.gamemanager.ui.gangs;
 
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageView;
 
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -22,16 +26,20 @@ import com.example.gamemanager.R;
 import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
+import com.google.android.material.navigation.NavigationView;
 
-public class GangsFragment extends Fragment {
+public class GangsListFragment extends Fragment {
 
     private GangsViewModel gangsViewModel;
     FloatingActionButton addBtn;
     GangAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
-//    ProgressBar progressBar;
     RecyclerView list;
+
+    NavigationView navigationView;
+    View emailView;
+    TextView navEmail;
+//    TextView loginView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,19 +51,24 @@ public class GangsFragment extends Fragment {
             adapter.notifyDataSetChanged();
                 });
 
-        View root = inflater.inflate(R.layout.fragment_gangs, container, false);
+        View root = inflater.inflate(R.layout.fragment_gangs_list, container, false);
+
+        navigationView =  getActivity().findViewById(R.id.nav_view);
+        emailView = navigationView.getHeaderView(0);
+        navEmail = (TextView)emailView.findViewById(R.id.textView);
+
+//        loginView = root.findViewById(R.id.ganglist_login_tv);
+//        loginView.setEnabled(false);
 
         list = root.findViewById(R.id.ganglist_recyclerv);
         list.setHasFixedSize(true);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(root.getContext());
+        list.addItemDecoration(new DividerItemDecoration(list.getContext(),DividerItemDecoration.VERTICAL));
         list.setLayoutManager(manager);
 
         adapter = new GangAdapter();
         list.setAdapter(adapter);
         setupProgressListener();
-
-//        progressBar = root.findViewById(R.id.ganglist_progressbar);
-//        progressBar.setVisibility(View.GONE);
 
         swipeRefresh = root.findViewById(R.id.ganglist_swiperefresh);
         swipeRefresh.setOnRefreshListener(()-> {
@@ -69,6 +82,7 @@ public class GangsFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_newgangfragment_open);
             }
         });
+
 
         return root;
     }
@@ -90,7 +104,7 @@ public class GangsFragment extends Fragment {
         });
     }
 
-    static class GangViewHolder extends RecyclerView.ViewHolder {
+    class GangViewHolder extends RecyclerView.ViewHolder  {
         ImageView imageV;
         TextView nameTv;
         public GangViewHolder(@NonNull View itemView) {
@@ -101,13 +115,30 @@ public class GangsFragment extends Fragment {
 
         public void bind(Gang gang) {
             nameTv.setText(gang.getName());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(gang.getName().toString(),gang);
+                    Fragment fragment = new GangInfoFragment();
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity(). getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.container, fragment);
+                    fragmentTransaction.commit();
+                    // navigate to info fragment of this gang.
+                    //Log.d("TAG","TEST"+gang.getName().toString());
+
+                }
+            });
 //            imageV.setImageResource(R.drawable.download);
             //TODO: gang image
-//            if(student.avatar != null && student.avatar != "") {
-//                Picasso.get().load(student.avatar).placeholder(R.drawable.download)
-//                        .error(R.drawable.download).into(imageV);
-//            }
         }
+
+//        @Override
+//        public void onClick(View v) {
+//            Log.d("TAG","TEST"+v.findViewById(R.id.gangrow_name).findViewById(R.id.gangrow_name));
+//        }
     }
 
     class GangAdapter extends RecyclerView.Adapter<GangViewHolder> {

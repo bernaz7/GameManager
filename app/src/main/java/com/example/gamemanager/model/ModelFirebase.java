@@ -1,37 +1,25 @@
 package com.example.gamemanager.model;
 
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.util.Log;
-import android.view.View;
+
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.motion.widget.Debug;
-import androidx.navigation.Navigation;
 
-import com.example.gamemanager.GameManagerApp;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.FirebaseApiNotAvailableException;
-import com.google.firebase.FirebaseApp;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -110,18 +98,13 @@ public class ModelFirebase {
     }
 
     public interface FirebaseCheckUserListener {
-        public void OnLoggedIn(FirebaseUser firebaseUser);
-        public void OnLoggedOut();
+        public FirebaseUser onComplete(FirebaseUser firebaseUser);
     }
 
     public static void checkUser(FirebaseCheckUserListener listener) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser != null){
-            listener.OnLoggedIn(firebaseUser);
-        }
-        else
-            listener.OnLoggedOut();
+        listener.onComplete(firebaseUser);
     }
 
     public interface FirebaseRegisterListener {

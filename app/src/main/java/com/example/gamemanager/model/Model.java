@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -73,5 +75,16 @@ public class Model {
         });
     }
 
+    public interface CheckUserListener {
+        void onComplete();
+    }
 
+    public void checkUser() {
+        ModelFirebase.checkUser(new ModelFirebase.FirebaseCheckUserListener() {
+            @Override
+            public FirebaseUser onComplete(FirebaseUser firebaseUser) {
+                return firebaseUser;
+            }
+        });
+    }
 }

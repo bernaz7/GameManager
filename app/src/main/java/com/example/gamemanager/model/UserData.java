@@ -4,6 +4,10 @@ package com.example.gamemanager.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.gamemanager.GameManagerApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
@@ -11,17 +15,31 @@ import com.google.firebase.firestore.FieldValue;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
 public class UserData {
+    @PrimaryKey
+    @NonNull
+    public String id;
     public String fullName;
     public String emailId;
     public Long lastUpdated;
     public Boolean isDeleted;
-    
+
+    final static String ID = "id";
     final static String FULLNAME = "fullname";
     final static String EMAILID = "emailid";
     final static String LAST_UPDATED = "lastUpdated";
     private static final String USERDATA_LAST_UPDATE_DATE = "UserDataLastUpdate";
     final static String IS_DELETED = "isDeleted";
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
 
     public String getFullName() {
         return fullName;
@@ -63,6 +81,7 @@ public class UserData {
 
     public Map<String,Object> toJson(){
         Map<String, Object> json = new HashMap<>();
+        json.put(ID, id);
         json.put(FULLNAME, fullName);
         json.put(EMAILID, emailId);
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
@@ -72,6 +91,7 @@ public class UserData {
 
     static public UserData create(Map<String, Object> json) {
         UserData userData = new UserData();
+        userData.id = (String) json.get(ID);
         userData.fullName = (String) json.get(FULLNAME);
         userData.emailId = (String)json.get(EMAILID);
 

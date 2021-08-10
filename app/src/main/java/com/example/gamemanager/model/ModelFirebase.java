@@ -26,6 +26,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -51,6 +53,32 @@ public class ModelFirebase {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 list.add(Gang.create(document.getData()));
+                            }
+                        } else {
+                        }
+
+                        listener.onComplete(list);
+                    }
+                });
+    }
+
+    public interface GetAllUsersListener {
+        public void onComplete(List<UserData> users);
+    }
+
+    public static void getAllUsers(Long since,GetAllUsersListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(userDataCollection)
+                .whereGreaterThanOrEqualTo(UserData.LAST_UPDATED,new Timestamp(since,0))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<UserData> list = new LinkedList<UserData>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                list.add(UserData.create(document.getData()));
                             }
                         } else {
                         }
@@ -121,6 +149,7 @@ public class ModelFirebase {
 
     public static void firebaseRegister(String email, String password, UserData userData, FirebaseRegisterListener listener) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -128,10 +157,15 @@ public class ModelFirebase {
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        userData.setId(firebaseUser.getUid());
+                        executorService.execute(()-> {
+                                    AppLocalDB.db.userDataDao().insertAll(userData);
+                                });
                         db.collection(userDataCollection).document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .set(userData.toJson());
-//                        FirebaseDatabase.getInstance().getReference("UserData")
-//                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
+//                        Model.instance.
+                        FirebaseDatabase.getInstance().getReference(userDataCollection)
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
                         listener.OnFirebaseRegisterSuccess(firebaseUser);
                     }
                 })

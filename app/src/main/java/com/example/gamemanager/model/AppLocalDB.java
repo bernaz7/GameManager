@@ -6,9 +6,10 @@ import androidx.room.RoomDatabase;
 
 import com.example.gamemanager.GameManagerApp;
 
-@Database(entities = {Gang.class}, version = 1)
+@Database(entities = {Gang.class, UserData.class}, version = 3)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract GangDao gangDao();
+    public abstract UserDataDao userDataDao();
 }
 public class AppLocalDB {
     final static public AppLocalDbRepository db =

@@ -8,11 +8,12 @@ import androidx.room.TypeConverters;
 
 import com.example.gamemanager.GameManagerApp;
 
-@Database(entities = {Gang.class, UserData.class}, version = 4)
+@Database(entities = {Gang.class, UserData.class, Poll.class}, version = 5)
 @TypeConverters({Converters.class})
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract GangDao gangDao();
     public abstract UserDataDao userDataDao();
+    public abstract PollDao pollDao();
 }
 public class AppLocalDB {
     final static public AppLocalDbRepository db =

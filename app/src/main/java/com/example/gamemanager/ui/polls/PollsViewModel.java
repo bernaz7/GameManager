@@ -4,16 +4,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gamemanager.model.Poll;
+import com.example.gamemanager.model.Model;
+
+import java.util.List;
+
 public class PollsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    public LiveData<List<Poll>> pollsList;
 
-    public PollsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+    public PollsViewModel() { pollsList = Model.instance.getAllPolls(); }
+
+    public LiveData<List<Poll>> getData() {
+        return pollsList;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void refresh() {
+        Model.instance.getAllPolls();
     }
 }

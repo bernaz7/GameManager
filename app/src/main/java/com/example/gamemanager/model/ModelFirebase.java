@@ -34,6 +34,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class ModelFirebase {
     final static String gangsCollection = "gangs";
     final static String userDataCollection = "userData";
+    final static String pollsCollection = "polls";
     private ModelFirebase(){}
 
     public interface GetAllGangsListener {
@@ -88,6 +89,32 @@ public class ModelFirebase {
                 });
     }
 
+    public interface GetAllPollsListener {
+        public void onComplete(List<Poll> polls);
+    }
+
+    public static void getAllPolls(Long since,GetAllPollsListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(pollsCollection)
+                .whereGreaterThanOrEqualTo(Poll.LAST_UPDATED,new Timestamp(since,0))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<Poll> list = new LinkedList<Poll>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                list.add(Poll.create(document.getData()));
+                            }
+                        } else {
+                        }
+
+                        listener.onComplete(list);
+                    }
+                });
+    }
+
     public static void saveGang(Gang gang, Model.onCompleteListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(gangsCollection).document(gang.id.toString())
@@ -96,6 +123,25 @@ public class ModelFirebase {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Gang.uniqueId++;
+                        listener.onComplete();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onComplete();
+                    }
+                });
+    }
+
+    public static void savePoll(Poll poll, Model.onCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(pollsCollection).document(poll.id.toString())
+                .set(poll.toJson())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Poll.uniqueId++;
                         listener.onComplete();
                     }
                 })

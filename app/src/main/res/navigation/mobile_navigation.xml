@@ -26,9 +26,13 @@
 
     <fragment
         android:id="@+id/nav_polls"
-        android:name="com.example.gamemanager.ui.polls.PollsFragment"
+        android:name="com.example.gamemanager.ui.polls.PollsListFragment"
         android:label="@string/menu_polls"
-        tools:layout="@layout/fragment_polls" />
+        tools:layout="@layout/fragment_polls_list" >
+        <action
+            android:id="@+id/action_nav_polls_to_pollInfoFragment"
+            app:destination="@id/pollInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newGangFragment"
         android:name="com.example.gamemanager.ui.gangs.NewGangFragment"
@@ -72,4 +76,8 @@
         android:label="fragment_gang_info"
         tools:layout="@layout/fragment_gang_info" >
     </fragment>
+    <fragment
+        android:id="@+id/pollInfoFragment"
+        android:name="com.example.gamemanager.ui.polls.PollInfoFragment"
+        android:label="PollInfoFragment" />
 </navigation>

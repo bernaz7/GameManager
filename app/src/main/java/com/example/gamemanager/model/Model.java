@@ -23,9 +23,11 @@ public class Model {
     }
     public MutableLiveData<LoadingState> gangsLoadingState= new MutableLiveData<LoadingState>(LoadingState.loaded);
     public MutableLiveData<LoadingState> usersLoadingState= new MutableLiveData<LoadingState>(LoadingState.loaded);
+    public MutableLiveData<LoadingState> pollsLoadingState= new MutableLiveData<LoadingState>(LoadingState.loaded);
 
     LiveData<List<Gang>> allGangs = AppLocalDB.db.gangDao().getAll();
     LiveData<List<UserData>> allUsers = AppLocalDB.db.userDataDao().getAll();
+    LiveData<List<Poll>> allPolls = AppLocalDB.db.pollDao().getAll();
     private Model() {    }
 
     public interface GetDataListener {
@@ -96,6 +98,39 @@ public class Model {
             });
         });
         return allUsers;
+    }
+
+    public LiveData<List<Poll>> getAllPolls() {
+        pollsLoadingState.setValue(LoadingState.loading);
+        // read local last update time
+        Long localLastUpdate = Poll.getLocalLastUpdateTime();
+
+        // get all updates from firebase
+        ModelFirebase.getAllPolls(localLastUpdate,(polls)-> {
+            executorService.execute(()-> {
+                Long lastUpdate = new Long(0);
+                Log.d("TAG","firebase returned " + polls.size());
+                for ( Poll poll : polls) {
+                    Log.d("TAG","gang: " + poll.id +"\tlud: " + poll.lastUpdated);
+                    // update the local DB with the new records
+                    if(poll.isDeleted != null && poll.isDeleted) {
+                        AppLocalDB.db.pollDao().delete(poll);
+                    }
+                    else {
+                        AppLocalDB.db.pollDao().insertAll(poll);
+                    }
+                    // update the local last update time
+                    if( lastUpdate < poll.lastUpdated) {
+                        lastUpdate = poll.lastUpdated;
+                    }
+                }
+                Poll.setLocalLastUpdateTime(lastUpdate);
+                pollsLoadingState.postValue(LoadingState.loaded);
+                // read all the data from the local DB -> return the data to the caller
+                // automatically performed by room -> live data gets updated
+            });
+        });
+        return allPolls;
     }
 
     public interface onCompleteListener {

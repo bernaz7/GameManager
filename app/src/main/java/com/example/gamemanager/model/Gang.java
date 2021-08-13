@@ -6,13 +6,19 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 
 import com.example.gamemanager.GameManagerApp;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -22,7 +28,7 @@ public class Gang implements Serializable {
     public Long id ;
     public String name;
     public String manager;
-    //public int[] members; TODO: add members
+    public ArrayList<String> members = new ArrayList<String>();
     public Long lastUpdated;
     public Boolean isDeleted;
     public static Long uniqueId = Long.valueOf(0);
@@ -30,7 +36,7 @@ public class Gang implements Serializable {
     final static String ID = "id";
     final static String NAME = "name";
     final static String MANAGER = "manager";
-    //final static String MEMBERS = "members";
+    final static String MEMBERS = "members";
     final static String LAST_UPDATED = "lastUpdated";
     private static final String GANG_LAST_UPDATE_DATE = "GangLastUpdate";
     final static String IS_DELETED = "isDeleted";
@@ -76,20 +82,25 @@ public class Gang implements Serializable {
         isDeleted = deleted;
     }
 
-//    public int[] getMembers() {
-//        return members;
-//    }
-//
-//    public void setMembers(int[] members) {
-//        this.members = members;
-//    }
+    public ArrayList<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public void addMember(String memberEmail) {
+        if(!this.members.contains(memberEmail.toString()))
+            this.members.add(memberEmail.toString());
+    }
 
     public Map<String,Object> toJson(){
         Map<String, Object> json = new HashMap<>();
         json.put(ID, id);
         json.put(NAME, name);
         json.put(MANAGER, manager);
-        //json.put(MEMBERS, members);
+        json.put(MEMBERS, members);
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         json.put(IS_DELETED, isDeleted);
         return json;
@@ -100,7 +111,7 @@ public class Gang implements Serializable {
         gang.id = (Long) json.get(ID);
         gang.name = (String)json.get(NAME);
         gang.manager = (String)json.get(MANAGER);
-        //st.members = (int[])json.get(MEMBERS);
+        gang.members = (ArrayList<String>) json.get(MEMBERS);
 
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         if(ts != null) {

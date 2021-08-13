@@ -66,12 +66,14 @@ public class GangInfoFragment extends Fragment {
             });
         }
         else { // if not manager
+            nameTv.setText(gang.getName().toString());
             nameTv.setVisibility(View.INVISIBLE);
             saveBtn.setText("Join Gang");
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    gang.addMember(navEmail.getText().toString());
+                    saveGang();
                 }
             });
         }

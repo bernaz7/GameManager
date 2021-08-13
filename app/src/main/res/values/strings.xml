@@ -19,5 +19,7 @@
         Please <b>Log in</b> to enjoy the app :D</string>
     <string name="home_welcome">Welcome to GameManager.\n Please use the navigation drawer to navigate through the application :)</string>
     <string name="anon_user">Anonymous</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
 
 </resources>

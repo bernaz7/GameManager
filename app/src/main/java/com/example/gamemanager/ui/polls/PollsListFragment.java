@@ -1,9 +1,11 @@
 package com.example.gamemanager.ui.polls;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +25,8 @@ import com.example.gamemanager.model.Poll;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Calendar;
 
 public class PollsListFragment extends Fragment {
 
@@ -72,11 +76,13 @@ public class PollsListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: date picker
+
             }
         });
 
         return root;
     }
+
 
     private void setupProgressListener() {
         Model.instance.pollsLoadingState.observe(getViewLifecycleOwner(),(state)-> {
@@ -92,6 +98,8 @@ public class PollsListFragment extends Fragment {
             }
         });
     }
+
+
 
     class PollViewHolder extends RecyclerView.ViewHolder  {
         ImageView imageV;

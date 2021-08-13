@@ -17,6 +17,7 @@ import com.example.gamemanager.R;
 import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
 import com.example.gamemanager.model.ModelFirebase;
+import com.google.android.material.navigation.NavigationView;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.gamemanager.model.Gang.uniqueId;
@@ -28,6 +29,10 @@ public class GangInfoFragment extends Fragment {
     ProgressBar progressBar;
     Button saveBtn;
 
+    NavigationView navigationView;
+    View emailView;
+    TextView navEmail;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,22 +42,40 @@ public class GangInfoFragment extends Fragment {
         progressBar = root.findViewById(R.id.ganginfo_progbar);
         progressBar.setVisibility(View.INVISIBLE);
 
+        navigationView =  getActivity().findViewById(R.id.nav_view);
+        emailView = navigationView.getHeaderView(0);
+        navEmail = (TextView)emailView.findViewById(R.id.textView);
         nameTv = root.findViewById(R.id.ganginfo_name_text);
-        nameTv.setText(gang.getName().toString());
-
         saveBtn = root.findViewById(R.id.ganginfo_save_btn);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
-                progressBar.setVisibility(View.VISIBLE);
-                saveBtn.setEnabled(false);
+        // if manager
+        if(navEmail.getText().toString() == gang.getManager().toString()) {
+            nameTv.setText(gang.getName().toString());
 
-                saveGang();
-            }
-        });
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    saveBtn.setEnabled(false);
+
+                    saveGang();
+                }
+            });
+        }
+        else { // if not manager
+            nameTv.setVisibility(View.INVISIBLE);
+            saveBtn.setText("Join Gang");
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+
         return root;
     }
 

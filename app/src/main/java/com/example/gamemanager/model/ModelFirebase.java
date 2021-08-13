@@ -163,7 +163,6 @@ public class ModelFirebase {
                                 });
                         db.collection(userDataCollection).document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .set(userData.toJson());
-//                        Model.instance.
                         FirebaseDatabase.getInstance().getReference(userDataCollection)
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
                         listener.OnFirebaseRegisterSuccess(firebaseUser);

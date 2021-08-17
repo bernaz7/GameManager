@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/newPollFragment">
 
     <fragment
         android:id="@+id/nav_gangs"
@@ -80,4 +80,9 @@
         android:id="@+id/pollInfoFragment"
         android:name="com.example.gamemanager.ui.polls.PollInfoFragment"
         android:label="PollInfoFragment" />
+    <fragment
+        android:id="@+id/newPollFragment"
+        android:name="com.example.gamemanager.ui.polls.NewPollFragment"
+        android:label="fragment_new_poll"
+        tools:layout="@layout/fragment_new_poll" />
 </navigation>

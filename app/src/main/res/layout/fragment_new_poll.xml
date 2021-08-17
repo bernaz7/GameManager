@@ -16,17 +16,18 @@
         android:layout_marginTop="20dp">
 
         <Button
+            android:id="@+id/newpoll_prev_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@null"
             android:text="@string/back"
             android:textColor="@color/blue"
-            android:background="@null"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/monthYearTV"
+            android:id="@+id/newpoll_monthYear_tv"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
@@ -36,15 +37,16 @@
             android:textColor="@color/black"/>
 
         <Button
+            android:id="@+id/newpoll_next_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/forward"
-            android:textColor="@color/blue"
             android:background="@null"
-            android:textStyle="bold"
+            android:text="@string/forward"
 
-            android:textSize="20sp"/>
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -13,18 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.gamemanager.R;
-import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
+import com.example.gamemanager.model.Poll;
 import com.google.android.material.navigation.NavigationView;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class PollInfoFragment extends Fragment {
-    Gang gang;
+    Poll poll;
     View root;
     TextView nameTv;
     ProgressBar progressBar;
-    Button saveBtn;
+    Button voteBtn;
 
     NavigationView navigationView;
     View emailView;
@@ -34,53 +34,67 @@ public class PollInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_gang_info, container, false);
-        gang = (Gang) getArguments().getSerializable("gang");
-        progressBar = root.findViewById(R.id.ganginfo_progbar);
+        root = inflater.inflate(R.layout.fragment_poll_info, container, false);
+        poll = (Poll) getArguments().getSerializable("poll");
+        progressBar = root.findViewById(R.id.pollinfo_progbar);
         progressBar.setVisibility(View.INVISIBLE);
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
         navEmail = (TextView)emailView.findViewById(R.id.textView);
-        nameTv = root.findViewById(R.id.ganginfo_name_text);
-        saveBtn = root.findViewById(R.id.ganginfo_save_btn);
+        nameTv = root.findViewById(R.id.pollinfo_name_text);
+        voteBtn = root.findViewById(R.id.pollinfo_vote_btn);
 
         // if manager
-        if(navEmail.getText().toString() == gang.getManager().toString()) {
-            nameTv.setText(gang.getName().toString());
+        if(navEmail.getText().toString() == poll.getManager().toString()) {
+            nameTv.setText(poll.getId().toString());
 
-            saveBtn.setOnClickListener(new View.OnClickListener() {
+            voteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                     progressBar.setVisibility(View.VISIBLE);
-                    saveBtn.setEnabled(false);
+                    voteBtn.setEnabled(false);
 
-                    saveGang();
+                    savePoll();
                 }
             });
         }
         else { // if not manager
-            nameTv.setText(gang.getName().toString());
-            nameTv.setVisibility(View.INVISIBLE);
-            saveBtn.setText("Join Gang");
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    gang.addMember(navEmail.getText().toString());
-                    saveGang();
-                }
-            });
+            if (!poll.voters.contains(navEmail.toString())) {
+                nameTv.setText(poll.getId().toString());
+                nameTv.setVisibility(View.INVISIBLE);
+                voteBtn.setText("Vote");
+                voteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        poll.voters.add(navEmail.toString());
+                        savePoll();
+                    }
+                });
+            }
+            else {
+                nameTv.setText("You've already voted!");
+                nameTv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                nameTv.setVisibility(View.VISIBLE);
+                voteBtn.setText("Back");
+                voteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Navigation.findNavController(root).navigateUp();
+                    }
+                });
+            }
         }
 
         return root;
     }
 
-    private void saveGang() {
-        gang.setName(nameTv.getText().toString());
-        Model.instance.saveGang(gang, ()-> {
+    private void savePoll() {
+        // edit votes
+        Model.instance.savePoll(poll, ()-> {
             Navigation.findNavController(root).navigateUp();
         });
     }

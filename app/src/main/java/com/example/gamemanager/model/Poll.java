@@ -12,6 +12,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class Poll implements Serializable {
     @NonNull
     public Long id ;
     public String manager;
+    public ArrayList<String> options;
     public ArrayList<String> voters = new ArrayList<String>();
     public Boolean isRunning;
     public Long lastUpdated;
@@ -29,11 +31,12 @@ public class Poll implements Serializable {
     public static Long uniqueId = Long.valueOf(0);
 
     final static String ID = "id";
+    final static String OPTIONS = "options";
     final static String MANAGER = "manager";
     final static String VOTERS = "voters";
     final static String IS_RUNNING = "isRunning";
     final static String LAST_UPDATED = "lastUpdated";
-    private static final String GANG_LAST_UPDATE_DATE = "GangLastUpdate";
+    private static final String POLL_LAST_UPDATE_DATE = "PollLastUpdate";
     final static String IS_DELETED = "isDeleted";
 
     @NonNull
@@ -51,6 +54,14 @@ public class Poll implements Serializable {
 
     public void setManager(String manager) {
         this.manager = manager;
+    }
+
+    public ArrayList<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(ArrayList<String> options) {
+        this.options = options;
     }
 
     public Long getLastUpdated() {
@@ -77,6 +88,14 @@ public class Poll implements Serializable {
         this.voters = voters;
     }
 
+    public Boolean getRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(Boolean running) {
+        isRunning = running;
+    }
+
     public void addVoter(String memberEmail) {
         if(!this.voters.contains(memberEmail.toString()))
             this.voters.add(memberEmail.toString());
@@ -86,6 +105,7 @@ public class Poll implements Serializable {
         Map<String, Object> json = new HashMap<>();
         json.put(ID, id);
         json.put(MANAGER, manager);
+        json.put(OPTIONS, options);
         json.put(VOTERS, voters);
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         json.put(IS_DELETED, isDeleted);
@@ -97,6 +117,7 @@ public class Poll implements Serializable {
         Poll poll = new Poll();
         poll.id = (Long) json.get(ID);
         poll.manager = (String)json.get(MANAGER);
+        poll.options = (ArrayList<String>) json.get(OPTIONS);
         poll.voters = (ArrayList<String>) json.get(VOTERS);
         poll.isRunning = (Boolean) json.get(IS_RUNNING);
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
@@ -115,13 +136,13 @@ public class Poll implements Serializable {
 
     static public void setLocalLastUpdateTime (Long ts) {
         SharedPreferences.Editor editor = GameManagerApp.context.getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
-        editor.putLong(GANG_LAST_UPDATE_DATE,ts);
+        editor.putLong(POLL_LAST_UPDATE_DATE,ts);
         editor.commit();
     }
 
     static public Long getLocalLastUpdateTime () {
         return GameManagerApp.context.getSharedPreferences("TAG", Context.MODE_PRIVATE)
-                .getLong(GANG_LAST_UPDATE_DATE,0);
+                .getLong(POLL_LAST_UPDATE_DATE,0);
 
     }
 }

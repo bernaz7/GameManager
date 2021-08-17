@@ -22,9 +22,10 @@
             android:layout_weight="1"
             android:background="@null"
             android:text="@string/back"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:backgroundTint="@android:color/holo_orange_dark" />
 
         <TextView
             android:id="@+id/newpoll_monthYear_tv"
@@ -44,9 +45,10 @@
             android:background="@null"
             android:text="@string/forward"
 
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:backgroundTint="@android:color/holo_orange_dark" />
 
     </LinearLayout>
 
@@ -198,5 +200,22 @@
             android:textSize="16sp" />
 
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/newpoll_create_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Create"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/orange" />
     </LinearLayout>
 </LinearLayout>

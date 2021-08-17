@@ -75,8 +75,7 @@ public class PollsListFragment extends Fragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: date picker
-
+                Navigation.findNavController(v).navigate(R.id.action_nav_polls_to_newPollFragment);
             }
         });
 

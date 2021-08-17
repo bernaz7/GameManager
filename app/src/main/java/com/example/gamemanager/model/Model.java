@@ -145,6 +145,14 @@ public class Model {
         });
     }
 
+    public void savePoll(Poll poll, onCompleteListener listener) {
+        pollsLoadingState.setValue(LoadingState.loading);
+        ModelFirebase.savePoll(poll,()-> {
+            getAllPolls();
+            listener.onComplete();
+        });
+    }
+
     public interface CheckUserListener {
         void onComplete();
     }

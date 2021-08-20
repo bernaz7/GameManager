@@ -30,6 +30,13 @@ public class CalendarUtils
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    public static LocalDate stringToLocalDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate formattedDate = LocalDate.parse(date,formatter);
+        return formattedDate;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String monthYearFromDate(LocalDate date)
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
@@ -58,14 +65,12 @@ public class CalendarUtils
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate)
-    {
+    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate) {
         ArrayList<LocalDate> days = new ArrayList<>();
         LocalDate current = sundayForDate(selectedDate);
         LocalDate endDate = current.plusWeeks(1);
 
-        while (current.isBefore(endDate))
-        {
+        while (current.isBefore(endDate)) {
             days.add(current);
             current = current.plusDays(1);
         }
@@ -87,6 +92,7 @@ public class CalendarUtils
 
         return null;
     }
+
 
 
 }

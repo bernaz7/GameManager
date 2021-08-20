@@ -14,6 +14,8 @@ import com.google.firebase.firestore.FieldValue;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ public class Poll implements Serializable {
     public String manager;
     public ArrayList<String> options;
     public ArrayList<String> voters = new ArrayList<String>();
+    public ArrayList<Integer> votes = new ArrayList<Integer>();
     public Boolean isRunning;
     public Long lastUpdated;
     public Boolean isDeleted;
@@ -34,6 +37,7 @@ public class Poll implements Serializable {
     final static String OPTIONS = "options";
     final static String MANAGER = "manager";
     final static String VOTERS = "voters";
+    final static String VOTES = "votes";
     final static String IS_RUNNING = "isRunning";
     final static String LAST_UPDATED = "lastUpdated";
     private static final String POLL_LAST_UPDATE_DATE = "PollLastUpdate";
@@ -88,6 +92,14 @@ public class Poll implements Serializable {
         this.voters = voters;
     }
 
+    public ArrayList<Integer> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(ArrayList<Integer> votes) {
+        this.votes = votes;
+    }
+
     public Boolean getRunning() {
         return isRunning;
     }
@@ -107,6 +119,7 @@ public class Poll implements Serializable {
         json.put(MANAGER, manager);
         json.put(OPTIONS, options);
         json.put(VOTERS, voters);
+        json.put(VOTES, votes);
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         json.put(IS_DELETED, isDeleted);
         json.put(IS_RUNNING,isRunning);
@@ -119,6 +132,8 @@ public class Poll implements Serializable {
         poll.manager = (String)json.get(MANAGER);
         poll.options = (ArrayList<String>) json.get(OPTIONS);
         poll.voters = (ArrayList<String>) json.get(VOTERS);
+        Collections.fill(poll.votes,0);
+        poll.votes = (ArrayList<Integer>) json.get(VOTES);
         poll.isRunning = (Boolean) json.get(IS_RUNNING);
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         if(ts != null) {

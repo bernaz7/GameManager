@@ -35,4 +35,17 @@ public class Converters {
         String json = gson.toJson(list);
         return json;
     }
+
+    @TypeConverter
+    public static ArrayList<Integer> fromStringToIntegerArrayList(String value) {
+        Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromIntegerArrayList(ArrayList<Integer> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        return json;
+    }
 }

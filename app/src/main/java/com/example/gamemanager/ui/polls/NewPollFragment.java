@@ -265,13 +265,16 @@ public class NewPollFragment extends Fragment {
     private void savePoll() {
         Poll poll = new Poll();
         ArrayList<String> temp = new ArrayList<>();
+        ArrayList<Integer> temp2 = new ArrayList<>();
         poll.setId(uniqueId);
         poll.setManager(navEmail.getText().toString());
         for (LocalDate day: chosenDays) {
             temp.add(day.toString());
+            temp2.add(0);
         }
         poll.setOptions(temp);
-        // TODO: voters?
+        poll.setVotes(temp2);
+
         poll.setRunning(true);
         Model.instance.savePoll(poll, ()-> {
             Navigation.findNavController(view).navigateUp();

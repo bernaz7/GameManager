@@ -82,7 +82,7 @@
     <fragment
         android:id="@+id/pollInfoFragment"
         android:name="com.example.gamemanager.ui.polls.PollInfoFragment"
-        android:label="PollInfoFragment" />
+        android:label="fragment_poll_info" />
     <fragment
         android:id="@+id/newPollFragment"
         android:name="com.example.gamemanager.ui.polls.NewPollFragment"

@@ -32,8 +32,10 @@ public class PollInfoFragment extends Fragment {
     TextView nameTv;
     ProgressBar progressBar;
     Button voteBtn;
+    Button endPollBtn;
     TextView[] pollOptionViews;
     LinearLayout optionsLayout;
+    LinearLayout optionsLayout2;
 //    ListView list;
 //    MyAdapter adapter;
 
@@ -49,13 +51,14 @@ public class PollInfoFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_poll_info, container, false);
         poll = (Poll) getArguments().getSerializable("poll");
         optionsLayout = root.findViewById(R.id.pollinfo_options_layout);
+        optionsLayout2 = root.findViewById(R.id.pollinfo_options_layout2);
         pollOptionViews = new TextView[poll.getOptions().size()];
         for(int i=0; i<poll.getOptions().size(); i++)
         {
             TextView optionTextView = new TextView(this.getContext());
             LocalDate date = CalendarUtils.stringToLocalDate(poll.getOptions().get(i));
             optionTextView.setText(date.getDayOfWeek().toString() + "\n" + date.toString());
-            optionTextView.setTextSize(18);
+            optionTextView.setTextSize(16);
             optionTextView.setPadding(10, 10, 10, 10);
             optionTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             optionTextView.setTextColor(getResources().getColor(R.color.black));
@@ -74,12 +77,13 @@ public class PollInfoFragment extends Fragment {
                 }
             });
 
-            optionsLayout.addView(optionTextView);
+            if(i<4)
+                optionsLayout.addView(optionTextView);
+            else
+                optionsLayout2.addView(optionTextView);
             pollOptionViews[i] = optionTextView;
         }
-//        list = root.findViewById(R.id.pollinfo_listv);
-//        adapter = new MyAdapter();
-//        list.setAdapter(adapter);
+
         progressBar = root.findViewById(R.id.pollinfo_progbar);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -89,27 +93,36 @@ public class PollInfoFragment extends Fragment {
 
         nameTv = root.findViewById(R.id.pollinfo_name_text);
         voteBtn = root.findViewById(R.id.pollinfo_vote_btn);
+        endPollBtn = root.findViewById(R.id.pollinfo_endpoll_btn);
 
-        // if manager
-        if(navEmail.getText().toString() == poll.getManager().toString()) {
-            nameTv.setText(poll.getId().toString());
+        if(poll.getRunning())
+        {
+            // if manager
+            if(navEmail.getText().equals(poll.getManager())) {
+                nameTv.setText(poll.getId().toString());
 
-            voteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                voteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        voteBtn.setEnabled(false);
 
+                        savePoll();
+                    }
+                });
 
-                    progressBar.setVisibility(View.VISIBLE);
-                    voteBtn.setEnabled(false);
+                endPollBtn.setVisibility(View.VISIBLE);
+                endPollBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        poll.setRunning(false);
 
-                    savePoll();
-                }
-            });
-        }
-        else { // if not manager
-            if (!poll.voters.contains(navEmail.toString())) {
+                        savePoll();
+                    }
+                });
+            }
+            // everyone
+            if (!poll.voters.contains(navEmail.getText().toString())) { // if didn't vote
                 nameTv.setText(poll.getId().toString());
                 nameTv.setVisibility(View.INVISIBLE);
                 voteBtn.setText("Vote");
@@ -128,10 +141,17 @@ public class PollInfoFragment extends Fragment {
                     }
                 });
             }
-            else {
+            else { // already voted
                 nameTv.setText("You've already voted!");
                 nameTv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 nameTv.setVisibility(View.VISIBLE);
+
+                for(int i=0; i<poll.getOptions().size(); i++) {
+                    String currentText = pollOptionViews[i].getText().toString();
+                    pollOptionViews[i].setText(currentText + "\nVotes: " + poll.votes.get(i));
+                    pollOptionViews[i].setOnClickListener(null);
+                    pollOptionViews[i].setBackgroundColor(getResources().getColor(R.color.orange));
+                }
                 voteBtn.setText("Back");
                 voteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -141,59 +161,34 @@ public class PollInfoFragment extends Fragment {
                 });
             }
         }
+        else {   // poll has ended
+            nameTv.setText("Poll has ended!");
+            nameTv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            nameTv.setVisibility(View.VISIBLE);
+            int winnerDate=0;
+
+            for(int i=0; i<poll.getOptions().size(); i++) {
+                String currentText = pollOptionViews[i].getText().toString();
+                pollOptionViews[i].setText(currentText + "\nVotes: " + poll.votes.get(i));
+                pollOptionViews[i].setOnClickListener(null);
+                pollOptionViews[i].setBackgroundColor(getResources().getColor(R.color.gray));
+                if(poll.votes.get(i) > poll.votes.get(winnerDate))
+                    winnerDate = i;
+            }
+            pollOptionViews[winnerDate].setBackgroundColor(getResources().getColor(R.color.orange));
+            voteBtn.setText("Back");
+            voteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigation.findNavController(root).navigateUp();
+                }
+            });
+        }
 
         return root;
     }
 
-//    class MyAdapter extends BaseAdapter {
-//
-//        @Override
-//        public int getCount() {
-//            if(poll.getOptions() != null)
-//                return poll.getOptions().size();
-//            else
-//                return 0;
-//        }
-//
-//        @RequiresApi(api = Build.VERSION_CODES.O)
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            if(convertView == null) {
-//                convertView = getLayoutInflater().inflate(R.layout.pollday_option,null);
-//            }
-//            TextView dayText = convertView.findViewById(R.id.pollday_text);
-//            TextView numText = convertView.findViewById(R.id.pollday_num);
-//            //Student student = studentsListViewModel.getData().getValue().get(position);
-//
-//            Poll poll = list.poll.getOptions().get(position);
-//
-//            dayText.setText(CalendarUtils.stringToLocalDate(option).getDayOfWeek().toString());
-//            numText.setText(CalendarUtils.stringToLocalDate(option).getDayOfMonth());
-////            nameTv.setText(student.getName());
-////            idTv.setText(student.getId());
-////            imageV.setImageResource(R.drawable.download);
-////            if(student.avatar != null && student.avatar != "") {
-////                Picasso.get().load(student.avatar).placeholder(R.drawable.download)
-////                        .error(R.drawable.download).into(imageV);
-////            }
-//
-//
-//            return convertView;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//    }
-
     private void savePoll() {
-        // TODO: edit votes
         Model.instance.savePoll(poll, ()-> {
             Navigation.findNavController(root).navigateUp();
         });

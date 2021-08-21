@@ -19,7 +19,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:autofillHints=""
-            android:hint="Game Name:"
+            android:hint="Game name:"
             android:inputType="text"
             android:singleLine="true"
             android:textSize="24sp"
@@ -27,14 +27,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <EditText
+            android:id="@+id/newgame_location_text"
+            android:layout_width="375dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:autofillHints=""
+            android:hint="Game location"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newgame_name_text" />
+
+        <EditText
+            android:id="@+id/newgame_time_text"
+            android:layout_width="375dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:autofillHints=""
+            android:hint="Game time"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newgame_location_text" />
+
         <Button
             android:id="@+id/newgame_save_btn"
             android:layout_width="194dp"
             android:layout_height="50dp"
+            android:layout_marginTop="16dp"
             android:text="Save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newgame_name_text" />
+            app:layout_constraintTop_toBottomOf="@+id/newgame_time_text" />
 
         <ProgressBar
             android:id="@+id/newgame_progbar"

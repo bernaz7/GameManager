@@ -108,10 +108,10 @@ public class GamesListFragment extends Fragment {
         }
 
         public void bind(Game game) {
-            titleTv.setText(game.getManager() + " - " + game.getDateCrated());
+            titleTv.setText(game.getName());
             timeTv.setText(game.getTime());
             usersTv.setText("Registered: " + game.getUsers().size());
-            locationTv.setText(game.getLocation());
+            locationTv.setText("Location: " + game.getLocation());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

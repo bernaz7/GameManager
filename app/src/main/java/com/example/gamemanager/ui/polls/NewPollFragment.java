@@ -1,17 +1,14 @@
 package com.example.gamemanager.ui.polls;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +22,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.gamemanager.model.Poll.uniqueId;
 import static com.example.gamemanager.ui.polls.calendar.CalendarUtils.daysInWeekArray;
 import static com.example.gamemanager.ui.polls.calendar.CalendarUtils.monthYearFromDate;
@@ -61,7 +57,6 @@ public class NewPollFragment extends Fragment {
     final static int SATURDAY = 6;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -215,7 +210,7 @@ public class NewPollFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void refreshWeek()
     {
         weekDays = daysInWeekArray(CalendarUtils.selectedDate);
@@ -248,14 +243,13 @@ public class NewPollFragment extends Fragment {
         chosenDays.clear();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void previousWeekAction()
     {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
         refreshWeek();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public void nextWeekAction()
     {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);

@@ -26,6 +26,7 @@ import com.example.gamemanager.model.Poll;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class PollsListFragment extends Fragment {
 
     private PollsViewModel pollsViewModel;
@@ -37,6 +38,7 @@ public class PollsListFragment extends Fragment {
     NavigationView navigationView;
     View emailView;
     TextView navEmail;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -101,18 +103,21 @@ public class PollsListFragment extends Fragment {
     class PollViewHolder extends RecyclerView.ViewHolder  {
         TextView titleTv;
         TextView optionsTv;
+        TextView votesTv;
         Button runningBtn;
         public PollViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTv = itemView.findViewById(R.id.pollrow_title_text);
             optionsTv = itemView.findViewById(R.id.pollrow_options_text);
+            votesTv = itemView.findViewById(R.id.pollrow_votes_text);
             runningBtn = itemView.findViewById(R.id.pollrow_running_toggle);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Poll poll) {
             titleTv.setText(poll.getManager() + " - " + poll.getDateCrated());
             optionsTv.setText("Options: "+ poll.options.size());
+            int sum = poll.votes.stream().mapToInt(a-> a).sum();
+            votesTv.setText("Votes: "+ String.valueOf(sum));
             if(poll.isRunning) {
                 runningBtn.setText("Running");
                 runningBtn.setBackgroundColor(getResources().getColor(R.color.orange));
@@ -134,7 +139,6 @@ public class PollsListFragment extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     class PollAdapter extends RecyclerView.Adapter<PollsListFragment.PollViewHolder> {
         @NonNull
         @Override

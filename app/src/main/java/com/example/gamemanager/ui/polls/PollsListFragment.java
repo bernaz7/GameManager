@@ -1,17 +1,17 @@
 package com.example.gamemanager.ui.polls;
 
-import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -25,8 +25,6 @@ import com.example.gamemanager.model.Poll;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Calendar;
 
 public class PollsListFragment extends Fragment {
 
@@ -101,16 +99,28 @@ public class PollsListFragment extends Fragment {
 
 
     class PollViewHolder extends RecyclerView.ViewHolder  {
-        ImageView imageV;
-        TextView nameTv;
+        TextView titleTv;
+        TextView optionsTv;
+        Button runningBtn;
         public PollViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageV = itemView.findViewById(R.id.pollrow_imagev);
-            nameTv = itemView.findViewById(R.id.pollrow_name);
+            titleTv = itemView.findViewById(R.id.pollrow_title_text);
+            optionsTv = itemView.findViewById(R.id.pollrow_options_text);
+            runningBtn = itemView.findViewById(R.id.pollrow_running_toggle);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Poll poll) {
-            //nameTv.setText(poll.getName());
+            titleTv.setText(poll.getManager() + " - " + poll.getDateCrated());
+            optionsTv.setText("Options: "+ poll.options.size());
+            if(poll.isRunning) {
+                runningBtn.setText("Running");
+                runningBtn.setBackgroundColor(getResources().getColor(R.color.orange));
+            }
+            else {
+                runningBtn.setText("Ended");
+                runningBtn.setBackgroundColor(getResources().getColor(R.color.gray));
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,16 +130,11 @@ public class PollsListFragment extends Fragment {
                     Navigation.findNavController(v).navigate(R.id.action_nav_polls_to_pollInfoFragment, bundle);
                 }
             });
-//            imageV.setImageResource(R.drawable.download);
-            //TODO: poll image
-        }
 
-//        @Override
-//        public void onClick(View v) {
-//            Log.d("TAG","TEST"+v.findViewById(R.id.gangrow_name).findViewById(R.id.gangrow_name));
-//        }
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     class PollAdapter extends RecyclerView.Adapter<PollsListFragment.PollViewHolder> {
         @NonNull
         @Override
@@ -144,6 +149,7 @@ public class PollsListFragment extends Fragment {
             Poll poll = pollsViewModel.getData().getValue().get(position);
             holder.bind(poll);
         }
+
 
         @Override
         public int getItemCount() {

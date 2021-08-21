@@ -21,5 +21,6 @@
     <string name="anon_user">Anonymous</string>
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
+    <string name="api_key">AIzaSyBOUzk8v9izP7C9-0EhsAvIXppDwQgGNFM</string>
 
 </resources>

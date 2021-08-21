@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +16,24 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.gamemanager.GameManagerApp;
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.Game;
 import com.example.gamemanager.model.Model;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
@@ -40,6 +54,9 @@ public class NewGameFragment extends Fragment {
     EditText locationText;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,11 +106,6 @@ public class NewGameFragment extends Fragment {
                                 String.valueOf(minute));
                     }
                 }, mHour, mMinute, false);
-//
-//        timeText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//
-//        });
 
         timeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

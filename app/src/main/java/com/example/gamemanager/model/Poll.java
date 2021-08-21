@@ -152,10 +152,6 @@ public class Poll implements Serializable {
         Collections.fill(poll.votes,0);
         poll.votes = (ArrayList<Integer>) json.get(VOTES);
         poll.dateCrated = (String) json.get(DATE_CREATED);
-//        if (poll.dateCrated == null) {
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            poll.dateCrated = formatter.format(LocalDate.now());
-//        }
         poll.isRunning = (Boolean) json.get(IS_RUNNING);
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         if(ts != null) {

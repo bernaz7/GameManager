@@ -2,9 +2,11 @@ package com.example.gamemanager.model;
 
 
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,10 +33,12 @@ import java.util.concurrent.Executors;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class ModelFirebase {
     final static String gangsCollection = "gangs";
     final static String userDataCollection = "userData";
     final static String pollsCollection = "polls";
+    final static String gamesCollection = "games";
     private ModelFirebase(){}
 
     public interface GetAllGangsListener {
@@ -108,6 +112,33 @@ public class ModelFirebase {
                                 list.add(Poll.create(document.getData()));
                             }
                         } else {
+                        }
+
+                        listener.onComplete(list);
+                    }
+                });
+    }
+
+    public interface GetAllGamesListener {
+        public void onComplete(List<Game> games);
+    }
+
+    public static void getAllGames(Long since, GetAllGamesListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(gamesCollection)
+                .whereGreaterThanOrEqualTo(Game.LAST_UPDATED,new Timestamp(since,0))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<Game> list = new LinkedList<Game>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                list.add(Game.create(document.getData()));
+                            }
+                        }
+                        else {
                         }
 
                         listener.onComplete(list);

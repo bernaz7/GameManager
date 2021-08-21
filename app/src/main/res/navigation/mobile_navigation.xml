@@ -20,9 +20,16 @@
 
     <fragment
         android:id="@+id/nav_games"
-        android:name="com.example.gamemanager.ui.games.GamesFragment"
+        android:name="com.example.gamemanager.ui.games.GamesListFragment"
         android:label="@string/menu_games"
-        tools:layout="@layout/fragment_games" />
+        tools:layout="@layout/fragment_games_list" >
+        <action
+            android:id="@+id/action_nav_games_to_gameInfoFragment"
+            app:destination="@id/gameInfoFragment" />
+        <action
+            android:id="@+id/action_nav_games_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_polls"
@@ -88,4 +95,12 @@
         android:name="com.example.gamemanager.ui.polls.NewPollFragment"
         android:label="fragment_new_poll"
         tools:layout="@layout/fragment_new_poll" />
+    <fragment
+        android:id="@+id/gameInfoFragment"
+        android:name="com.example.gamemanager.ui.games.GameInfoFragment"
+        android:label="GameInfoFragment" />
+    <fragment
+        android:id="@+id/newGameFragment"
+        android:name="com.example.gamemanager.ui.games.NewGameFragment"
+        android:label="NewGameFragment" />
 </navigation>

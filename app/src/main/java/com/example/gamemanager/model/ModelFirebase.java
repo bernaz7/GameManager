@@ -184,6 +184,25 @@ public class ModelFirebase {
                 });
     }
 
+    public static void saveGame(Game game, Model.onCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(gamesCollection).document(game.id.toString())
+                .set(game.toJson())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Game.uniqueId++;
+                        listener.onComplete();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onComplete();
+                    }
+                });
+    }
+
     public interface FirebaseLoginListener {
         public void OnFirebaseLoginSuccess(FirebaseUser user);
         public void OnFirebaseLoginFailure();

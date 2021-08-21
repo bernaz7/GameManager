@@ -192,6 +192,14 @@ public class Model {
         });
     }
 
+    public void saveGame(Game game, onCompleteListener listener) {
+        gamesLoadingState.setValue(LoadingState.loading);
+        ModelFirebase.saveGame(game,()-> {
+            getAllGames();
+            listener.onComplete();
+        });
+    }
+
     public interface CheckUserListener {
         void onComplete();
     }

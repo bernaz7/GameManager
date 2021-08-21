@@ -66,6 +66,14 @@ public class GamesListFragment extends Fragment {
             gamesViewModel.refresh();
         });
 
+        addBtn = root.findViewById(R.id.gamelist_add_btn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_games_to_newGameFragment);
+            }
+        });
+
         return root;
     }
 
@@ -88,20 +96,22 @@ public class GamesListFragment extends Fragment {
 
     class GameViewHolder extends RecyclerView.ViewHolder  {
         TextView titleTv;
-        TextView optionsTv;
+        TextView timeTv;
         TextView usersTv;
-        Button runningBtn;
+        TextView locationTv;
         public GameViewHolder(@NonNull View itemView) {
             super(itemView);
-//            titleTv = itemView.findViewById(R.id.pollrow_title_text);
-//            optionsTv = itemView.findViewById(R.id.pollrow_options_text);
-//            usersTv = itemView.findViewById(R.id.pollrow_votes_text);
-//            runningBtn = itemView.findViewById(R.id.pollrow_running_toggle);
+            titleTv = itemView.findViewById(R.id.gamerow_title_text);
+            timeTv = itemView.findViewById(R.id.gamerow_time_text);
+            usersTv = itemView.findViewById(R.id.gamerow_users_text);
+            locationTv = itemView.findViewById(R.id.gamerow_location_text);
         }
 
         public void bind(Game game) {
             titleTv.setText(game.getManager() + " - " + game.getDateCrated());
-
+            timeTv.setText(game.getTime());
+            usersTv.setText("Registered: " + game.getUsers().size());
+            locationTv.setText(game.getLocation());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

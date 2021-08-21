@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_polls">
+    app:startDestination="@id/nav_games">
 
     <fragment
         android:id="@+id/nav_gangs"
@@ -98,9 +98,9 @@
     <fragment
         android:id="@+id/gameInfoFragment"
         android:name="com.example.gamemanager.ui.games.GameInfoFragment"
-        android:label="GameInfoFragment" />
+        android:label="fragment_game_info" />
     <fragment
         android:id="@+id/newGameFragment"
         android:name="com.example.gamemanager.ui.games.NewGameFragment"
-        android:label="NewGameFragment" />
+        android:label="fragment_new_game" />
 </navigation>

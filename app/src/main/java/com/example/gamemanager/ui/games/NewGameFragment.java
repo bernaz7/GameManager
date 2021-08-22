@@ -54,6 +54,8 @@ public class NewGameFragment extends Fragment {
     EditText locationText;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+    String date;
+    String time;
 
 
 
@@ -88,9 +90,7 @@ public class NewGameFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
 
-                        timeText.setText("Date: "+String.valueOf(year)+'-'+
-                                String.valueOf(monthOfYear+1)+'-'+
-                                String.valueOf(dayOfMonth));
+                        date = String.format("%02d-%02d-%02d",year,monthOfYear+1,dayOfMonth);
                         timePickerDialog.show();
                     }
                 }, mYear, mMonth, mDay);
@@ -101,9 +101,8 @@ public class NewGameFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-                        timeText.setText(timeText.getText().toString()+", Time: " +
-                                String.valueOf(hourOfDay) + ':' +
-                                String.valueOf(minute));
+                        time = String.format("%02d:%02d", hourOfDay, minute);
+                        timeText.setText("Date: "+date+", Time: "+time);
                     }
                 }, mHour, mMinute, false);
 
@@ -137,7 +136,8 @@ public class NewGameFragment extends Fragment {
         game.setName(nameText.getText().toString());
         game.setManager(navEmail.getText().toString());
         game.addUser(navEmail.getText().toString());
-        game.setTime(timeText.getText().toString());
+        game.setTime(time);
+        game.setDate(date);
         game.setLocation(locationText.getText().toString());
         //game.setUsers();
         Model.instance.saveGame(game, ()-> {

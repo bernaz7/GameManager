@@ -24,6 +24,8 @@ public class UserData {
     public String emailId;
     public Long lastUpdated;
     public Boolean isDeleted;
+    //public String imageUrl;
+    // TODO: add image for user.
 
     final static String ID = "id";
     final static String FULLNAME = "fullname";
@@ -31,6 +33,7 @@ public class UserData {
     final static String LAST_UPDATED = "lastUpdated";
     private static final String USERDATA_LAST_UPDATE_DATE = "UserDataLastUpdate";
     final static String IS_DELETED = "isDeleted";
+
 
     @NonNull
     public String getId() {

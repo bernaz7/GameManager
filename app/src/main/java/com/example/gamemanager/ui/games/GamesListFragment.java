@@ -23,6 +23,11 @@ import com.example.gamemanager.ui.polls.PollsListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 public class GamesListFragment extends Fragment {
 
     private GamesViewModel gamesViewModel;
@@ -99,19 +104,40 @@ public class GamesListFragment extends Fragment {
         TextView timeTv;
         TextView usersTv;
         TextView locationTv;
+        TextView stateTv;
         public GameViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTv = itemView.findViewById(R.id.gamerow_title_text);
             timeTv = itemView.findViewById(R.id.gamerow_time_text);
             usersTv = itemView.findViewById(R.id.gamerow_users_text);
             locationTv = itemView.findViewById(R.id.gamerow_location_text);
+            stateTv = itemView.findViewById(R.id.gamerow_game_state);
         }
 
         public void bind(Game game) {
             titleTv.setText(game.getName());
-            timeTv.setText(game.getTime());
+            timeTv.setText(game.getDate()+", "+game.getTime());
             usersTv.setText("Registered: " + game.getUsers().size());
             locationTv.setText("Location: " + game.getLocation());
+
+            String now = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now());
+            if (now.compareTo(game.getDate()) > 0) {
+                // game date passed
+                stateTv.setText("State: Ended");
+                stateTv.setBackgroundColor(getResources().getColor(R.color.red_btn_bg_color));
+            }
+            else if (now.compareTo(game.getDate()) == 0) {
+                // TODAY!
+                stateTv.setText("State: Today");
+                stateTv.setBackgroundColor(getResources().getColor(R.color.main_green_color));
+            }
+            else {
+                // game date upcoming
+                stateTv.setText("State: Upcoming");
+                stateTv.setBackgroundColor(getResources().getColor(R.color.orange));
+            }
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

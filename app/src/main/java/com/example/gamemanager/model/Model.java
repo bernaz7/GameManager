@@ -1,5 +1,6 @@
 package com.example.gamemanager.model;
 
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
 
@@ -200,6 +201,13 @@ public class Model {
         });
     }
 
+    public void saveUserData(UserData userData) {
+        usersLoadingState.setValue(LoadingState.loading);
+        ModelFirebase.saveUserData(userData,()-> {
+            getAllUsers();
+        });
+    }
+
     public interface CheckUserListener {
         void onComplete();
     }
@@ -211,5 +219,16 @@ public class Model {
                 return firebaseUser;
             }
         });
+    }
+
+    public interface UploadImageListener {
+        void onComplete(String url);
+    }
+    public void uploadImage(Bitmap imageBmp, String name, final UploadImageListener listener){
+        ModelFirebase.uploadImage(imageBmp,name,listener);
+    }
+
+    public UserData getUserDataByEmail(String email) {
+        return AppLocalDB.db.userDataDao().getUserDataByEmail(email);
     }
 }

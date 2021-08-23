@@ -60,15 +60,15 @@
         <ListView
             android:id="@+id/gameinfo_user_listv"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="220dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/gameinfo_vote_btn"
+            app:layout_constraintBottom_toTopOf="@+id/gameinfo_join_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gameinfo_location_text" />
 
         <Button
-            android:id="@+id/gameinfo_vote_btn"
+            android:id="@+id/gameinfo_join_btn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -85,7 +85,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gameinfo_vote_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/gameinfo_join_btn" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

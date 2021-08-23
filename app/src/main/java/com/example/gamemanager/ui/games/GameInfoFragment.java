@@ -5,35 +5,41 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.Navigation;
 
 import com.example.gamemanager.R;
+import com.example.gamemanager.model.Game;
+import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
-import com.example.gamemanager.model.Poll;
-import com.example.gamemanager.ui.polls.calendar.CalendarUtils;
+import com.example.gamemanager.model.UserData;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
-import java.time.LocalDate;
+import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class GameInfoFragment extends Fragment {
-    Poll poll;
+    Game game;
     View root;
-    TextView nameTv;
+    TextView titleTv;
+    TextView timeTv;
+    TextView locationTv;
     ProgressBar progressBar;
-    Button voteBtn;
-    Button endPollBtn;
-    TextView[] pollOptionViews;
-    LinearLayout optionsLayout;
-    LinearLayout optionsLayout2;
-//    ListView list;
-//    MyAdapter adapter;
+    Button joinBtn;
+
+    ListView list;
+    MyAdapter adapter;
 
     NavigationView navigationView;
     View emailView;
@@ -43,149 +49,111 @@ public class GameInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_poll_info, container, false);
-        poll = (Poll) getArguments().getSerializable("poll");
-        optionsLayout = root.findViewById(R.id.pollinfo_options_layout);
-        optionsLayout2 = root.findViewById(R.id.pollinfo_options_layout2);
-        pollOptionViews = new TextView[poll.getOptions().size()];
-        for(int i=0; i<poll.getOptions().size(); i++)
-        {
-            TextView optionTextView = new TextView(this.getContext());
-            LocalDate date = CalendarUtils.stringToLocalDate(poll.getOptions().get(i));
-            optionTextView.setText(date.getDayOfWeek().toString() + "\n" + date.toString());
-            optionTextView.setTextSize(16);
-            optionTextView.setPadding(10, 10, 10, 10);
-            optionTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            optionTextView.setTextColor(getResources().getColor(R.color.black));
-            optionTextView.setBackgroundColor(getResources().getColor(R.color.gray));
-            optionTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (v.isSelected()) {
-                        v.setSelected(false);
-                        v.setBackgroundColor(getResources().getColor(R.color.gray));
-                    }
-                    else {
-                        v.setSelected(true);
-                        v.setBackgroundColor(getResources().getColor(R.color.orange));
-                    }
-                }
-            });
 
-            if(i<4)
-                optionsLayout.addView(optionTextView);
-            else
-                optionsLayout2.addView(optionTextView);
-            pollOptionViews[i] = optionTextView;
-        }
+        root = inflater.inflate(R.layout.fragment_game_info, container, false);
+        game = (Game) getArguments().getSerializable("game");
 
-        progressBar = root.findViewById(R.id.pollinfo_progbar);
+        list = root.findViewById(R.id.gameinfo_user_listv);
+        adapter = new MyAdapter();
+        list.setAdapter(adapter);
+
+
+        progressBar = root.findViewById(R.id.gameinfo_progbar);
         progressBar.setVisibility(View.INVISIBLE);
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
         navEmail = (TextView)emailView.findViewById(R.id.textView);
 
-        nameTv = root.findViewById(R.id.pollinfo_name_text);
-        voteBtn = root.findViewById(R.id.pollinfo_vote_btn);
-        endPollBtn = root.findViewById(R.id.pollinfo_endpoll_btn);
+        titleTv = root.findViewById(R.id.gameinfo_name_text);
+        timeTv = root.findViewById(R.id.gameinfo_time_text);
+        locationTv = root.findViewById(R.id.gameinfo_location_text);
 
-        if(poll.getRunning())
-        {
-            // if manager
-            if(navEmail.getText().equals(poll.getManager())) {
-                nameTv.setText(poll.getId().toString());
+        titleTv.setText(game.getName());
+        timeTv.setText(game.getTime());
+        locationTv.setText(game.getLocation());
 
-                voteBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        voteBtn.setEnabled(false);
-
-                        savePoll();
-                    }
-                });
-
-                endPollBtn.setVisibility(View.VISIBLE);
-                endPollBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        poll.setRunning(false);
-
-                        savePoll();
-                    }
-                });
-            }
-            // everyone
-            if (!poll.voters.contains(navEmail.getText().toString())) { // if didn't vote
-                nameTv.setText(poll.getId().toString());
-                nameTv.setVisibility(View.INVISIBLE);
-                voteBtn.setText("Vote");
-                voteBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        poll.voters.add(navEmail.getText().toString());
-                        for(int i=0; i<poll.getOptions().size(); i++)
-                        {
-                            if(pollOptionViews[i].isSelected())
-                            {
-                                poll.votes.set(i,poll.votes.get(i)+1);
-                            }
-                        }
-                        savePoll();
-                    }
-                });
-            }
-            else { // already voted
-                nameTv.setText("You've already voted!");
-                nameTv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                nameTv.setVisibility(View.VISIBLE);
-
-                for(int i=0; i<poll.getOptions().size(); i++) {
-                    String currentText = pollOptionViews[i].getText().toString();
-                    pollOptionViews[i].setText(currentText + "\nVotes: " + poll.votes.get(i));
-                    pollOptionViews[i].setOnClickListener(null);
-                    pollOptionViews[i].setBackgroundColor(getResources().getColor(R.color.orange));
+        joinBtn = root.findViewById(R.id.gameinfo_join_btn);
+        joinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!game.users.contains(navEmail.getText().toString())) {
+                    game.users.add(navEmail.getText().toString());
+                    new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                            .setTitleText("Joined game successfully!")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            })
+                            .show();
                 }
-                voteBtn.setText("Back");
-                voteBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.findNavController(root).navigateUp();
-                    }
-                });
-            }
-        }
-        else {   // poll has ended
-            nameTv.setText("Poll has ended!");
-            nameTv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            nameTv.setVisibility(View.VISIBLE);
-            int winnerDate=0;
-
-            for(int i=0; i<poll.getOptions().size(); i++) {
-                String currentText = pollOptionViews[i].getText().toString();
-                pollOptionViews[i].setText(currentText + "\nVotes: " + poll.votes.get(i));
-                pollOptionViews[i].setOnClickListener(null);
-                pollOptionViews[i].setBackgroundColor(getResources().getColor(R.color.gray));
-                if(poll.votes.get(i) > poll.votes.get(winnerDate))
-                    winnerDate = i;
-            }
-            pollOptionViews[winnerDate].setBackgroundColor(getResources().getColor(R.color.orange));
-            voteBtn.setText("Back");
-            voteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Navigation.findNavController(root).navigateUp();
+                else {
+                    new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                            .setTitleText("You've already joined this game!")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            })
+                            .show();
                 }
-            });
-        }
+                joinBtn.setEnabled(false);
+
+                saveGame();
+            }
+        });
+
 
         return root;
     }
 
-    private void savePoll() {
-        Model.instance.savePoll(poll, ()-> {
+    class MyAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return game.getUsers().size();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.user_list_row,null);
+            }
+
+            TextView nameTv = convertView.findViewById(R.id.userrow_user_text);
+            ImageView imageV = convertView.findViewById(R.id.userrow_imagev);
+            String user = game.getUsers().get(position);
+            UserData userData = Model.instance.getUserDataByEmail(user);
+
+            nameTv.setText(user);
+            //imageV.setImageResource(R.drawable.download);
+
+            if(userData.imageUrl != null && userData.imageUrl != "") {
+                Picasso.get().load(userData.imageUrl).placeholder(R.drawable.download)
+                        .error(R.drawable.download).into(imageV);
+            }
+
+
+            return convertView;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+    }
+
+    private void saveGame() {
+        Model.instance.saveGame(game, ()-> {
             Navigation.findNavController(root).navigateUp();
         });
     }

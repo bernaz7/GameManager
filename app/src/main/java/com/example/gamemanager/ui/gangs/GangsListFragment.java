@@ -104,8 +104,8 @@ public class GangsListFragment extends Fragment {
         TextView nameTv;
         public GangViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageV = itemView.findViewById(R.id.pollrow_imagev);
-            nameTv = itemView.findViewById(R.id.pollrow_title_text);
+            imageV = itemView.findViewById(R.id.gangrow_imagev);
+            nameTv = itemView.findViewById(R.id.gangrow_title_text);
         }
 
         public void bind(Gang gang) {

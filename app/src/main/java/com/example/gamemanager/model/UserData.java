@@ -24,7 +24,7 @@ public class UserData {
     public String emailId;
     public Long lastUpdated;
     public Boolean isDeleted;
-    //public String imageUrl;
+    public String imageUrl;
     // TODO: add image for user.
 
     final static String ID = "id";
@@ -33,6 +33,7 @@ public class UserData {
     final static String LAST_UPDATED = "lastUpdated";
     private static final String USERDATA_LAST_UPDATE_DATE = "UserDataLastUpdate";
     final static String IS_DELETED = "isDeleted";
+    final static String IMAGE_URL = "imageUrl";
 
 
     @NonNull
@@ -76,6 +77,14 @@ public class UserData {
         isDeleted = deleted;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public UserData() {} // constructor
     public UserData(String fullName, String emailId) {
         this.fullName = fullName;
@@ -89,6 +98,7 @@ public class UserData {
         json.put(EMAILID, emailId);
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         json.put(IS_DELETED, isDeleted);
+        json.put(IMAGE_URL, imageUrl);
         return json;
     }
 
@@ -97,6 +107,7 @@ public class UserData {
         userData.id = (String) json.get(ID);
         userData.fullName = (String) json.get(FULLNAME);
         userData.emailId = (String)json.get(EMAILID);
+        userData.imageUrl = (String)json.get(IMAGE_URL);
 
 
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);

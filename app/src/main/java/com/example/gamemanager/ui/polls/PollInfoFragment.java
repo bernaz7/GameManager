@@ -24,6 +24,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class PollInfoFragment extends Fragment {
@@ -32,6 +34,7 @@ public class PollInfoFragment extends Fragment {
     TextView nameTv;
     ProgressBar progressBar;
     Button voteBtn;
+    Button deleteBtn;
     Button endPollBtn;
     TextView[] pollOptionViews;
     LinearLayout optionsLayout;
@@ -93,8 +96,33 @@ public class PollInfoFragment extends Fragment {
 
         nameTv = root.findViewById(R.id.pollinfo_name_text);
         voteBtn = root.findViewById(R.id.pollinfo_vote_btn);
+        deleteBtn = root.findViewById(R.id.pollinfo_delete_btn);
         endPollBtn = root.findViewById(R.id.pollinfo_endpoll_btn);
 
+        //if manager no matter what (for delete btn haha)
+        if(navEmail.getText().toString().compareTo(poll.getManager()) == 0)
+        {
+            deleteBtn.setVisibility(View.VISIBLE);
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Model.instance.deletePoll(poll, ()-> {
+                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                                .setTitleText("")
+                                .setContentText("Poll deleted")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        Navigation.findNavController(root).navigateUp();
+                                    }
+                                })
+                                .show();
+                    });
+                }
+            });
+        }
         if(poll.getRunning())
         {
             // if manager

@@ -74,17 +74,31 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pollinfo_vote_btn"
+            app:layout_constraintTop_toBottomOf="@id/pollinfo_endpoll_btn"
             />
+
+        <Button
+            android:id="@+id/pollinfo_delete_btn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pollinfo_vote_btn" />
 
         <ProgressBar
             android:id="@+id/pollinfo_progbar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pollinfo_endpoll_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/pollinfo_delete_btn" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

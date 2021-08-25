@@ -2,6 +2,7 @@ package com.example.gamemanager.ui.games;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class GameInfoFragment extends Fragment {
     TextView locationTv;
     ProgressBar progressBar;
     Button joinBtn;
+    Button deleteBtn;
 
     ListView list;
     MyAdapter adapter;
@@ -108,6 +110,31 @@ public class GameInfoFragment extends Fragment {
             }
         });
 
+        deleteBtn = root.findViewById(R.id.gameinfo_delete_btn);
+        // if manager
+        if (navEmail.getText().toString().compareTo(game.getManager().toString()) == 0)
+        {
+            deleteBtn.setVisibility(View.VISIBLE);
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Model.instance.deleteGame(game, ()-> {
+                        new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                                .setTitleText("")
+                                .setContentText("Game deleted")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        Navigation.findNavController(root).navigateUp();
+                                    }
+                                })
+                                .show();
+                    });
+                }
+            });
+        }
 
         return root;
     }

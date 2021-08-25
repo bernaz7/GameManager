@@ -47,6 +47,7 @@ public class ModelFirebase {
     final static String gamesCollection = "games";
     private ModelFirebase(){}
 
+
     public interface GetAllGangsListener {
         public void onComplete(List<Gang> gangs);
     }
@@ -222,6 +223,42 @@ public class ModelFirebase {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        listener.onComplete();
+                    }
+                });
+    }
+
+    public static void deleteGang(Gang gang, Model.onCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(gangsCollection).document(gang.id.toString())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listener.onComplete();
+                    }
+                });
+    }
+
+    public static void deletePoll(Poll poll, Model.onCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(pollsCollection).document(poll.id.toString())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listener.onComplete();
+                    }
+                });
+    }
+    
+    public static void deleteGame(Game game, Model.onCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(gamesCollection).document(game.id.toString())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
                         listener.onComplete();
                     }
                 });

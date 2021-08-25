@@ -3,6 +3,7 @@ package com.example.gamemanager.model;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -207,6 +208,29 @@ public class Model {
             getAllUsers();
         });
     }
+    public void deleteGang(Gang gang, onCompleteListener listener) {
+        gang.setDeleted(true);
+        AppLocalDB.db.gangDao().delete(gang);
+        ModelFirebase.deleteGang(gang, () -> {
+            listener.onComplete();
+        });
+    }
+
+    public void deletePoll(Poll poll, onCompleteListener listener) {
+        poll.setDeleted(true);
+        AppLocalDB.db.pollDao().delete(poll);
+        ModelFirebase.deletePoll(poll, () -> {
+            listener.onComplete();
+        });
+    }
+
+    public void deleteGame(Game game, onCompleteListener listener) {
+        game.setDeleted(true);
+        AppLocalDB.db.gameDao().delete(game);
+        ModelFirebase.deleteGame(game, () -> {
+            listener.onComplete();
+        });
+    }
 
     public interface CheckUserListener {
         void onComplete();
@@ -224,6 +248,7 @@ public class Model {
     public interface UploadImageListener {
         void onComplete(String url);
     }
+
     public void uploadImage(Bitmap imageBmp, String name, final UploadImageListener listener){
         ModelFirebase.uploadImage(imageBmp,name,listener);
     }

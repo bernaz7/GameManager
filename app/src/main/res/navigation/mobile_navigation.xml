@@ -92,7 +92,11 @@
     <fragment
         android:id="@+id/pollInfoFragment"
         android:name="com.example.gamemanager.ui.polls.PollInfoFragment"
-        android:label="fragment_poll_info" />
+        android:label="fragment_poll_info" >
+        <action
+            android:id="@+id/action_pollInfoFragment_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newPollFragment"
         android:name="com.example.gamemanager.ui.polls.NewPollFragment"

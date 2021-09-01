@@ -57,14 +57,30 @@
 
         <Button
             android:id="@+id/pollinfo_vote_btn"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="194dp"
+            android:layout_height="50dp"
             android:layout_marginTop="32dp"
             android:text="vote"
-            app:layout_constraintBottom_toTopOf="@id/pollinfo_endpoll_btn"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/pollinfo_creategame_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pollinfo_options_layout2" />
+
+        <Button
+            android:id="@+id/pollinfo_creategame_btn"
+            android:layout_width="194dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:text="create game"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/pollinfo_vote_btn"
+            app:layout_constraintBottom_toTopOf="@id/pollinfo_endpoll_btn" />
 
         <Button
             android:id="@+id/pollinfo_endpoll_btn"
@@ -88,7 +104,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pollinfo_vote_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/pollinfo_endpoll_btn" />
 
         <ProgressBar
             android:id="@+id/pollinfo_progbar"

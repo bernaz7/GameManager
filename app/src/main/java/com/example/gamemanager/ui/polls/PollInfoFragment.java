@@ -35,12 +35,12 @@ public class PollInfoFragment extends Fragment {
     ProgressBar progressBar;
     Button voteBtn;
     Button deleteBtn;
+    Button createGameBtn;
     Button endPollBtn;
     TextView[] pollOptionViews;
     LinearLayout optionsLayout;
     LinearLayout optionsLayout2;
-//    ListView list;
-//    MyAdapter adapter;
+
 
     NavigationView navigationView;
     View emailView;
@@ -98,8 +98,9 @@ public class PollInfoFragment extends Fragment {
         voteBtn = root.findViewById(R.id.pollinfo_vote_btn);
         deleteBtn = root.findViewById(R.id.pollinfo_delete_btn);
         endPollBtn = root.findViewById(R.id.pollinfo_endpoll_btn);
+        createGameBtn = root.findViewById(R.id.pollinfo_creategame_btn);
 
-        //if manager no matter what (for delete btn haha)
+        //if manager no matter what (for delete and create game btns)
         if(navEmail.getText().toString().compareTo(poll.getManager()) == 0)
         {
             deleteBtn.setVisibility(View.VISIBLE);
@@ -122,6 +123,17 @@ public class PollInfoFragment extends Fragment {
                     });
                 }
             });
+
+            createGameBtn.setVisibility(View.VISIBLE);
+            createGameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("usersList",poll.get);
+                    Navigation.findNavController(v).navigate(R.id.action_pollInfoFragment_to_newGameFragment,bundle);
+                }
+            });
+
         }
         if(poll.getRunning())
         {
@@ -136,8 +148,7 @@ public class PollInfoFragment extends Fragment {
                         voteBtn.setEnabled(false);
 
                         savePoll();
-                    }
-                });
+                    }                });
 
                 endPollBtn.setVisibility(View.VISIBLE);
                 endPollBtn.setOnClickListener(new View.OnClickListener() {

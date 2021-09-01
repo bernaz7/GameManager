@@ -10,7 +10,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.gamemanager.GameManagerApp;
-import com.example.gamemanager.ui.polls.calendar.CalendarUtils;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
@@ -18,7 +17,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

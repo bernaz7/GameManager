@@ -1,11 +1,10 @@
 package com.example.gamemanager.ui.polls;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gamemanager.model.Poll;
 import com.example.gamemanager.model.Model;
+import com.example.gamemanager.model.Poll;
 
 import java.util.List;
 

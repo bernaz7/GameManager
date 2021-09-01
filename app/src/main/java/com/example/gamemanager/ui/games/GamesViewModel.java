@@ -1,13 +1,10 @@
 package com.example.gamemanager.ui.games;
 
-import android.os.Build;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gamemanager.model.Model;
 import com.example.gamemanager.model.Game;
+import com.example.gamemanager.model.Model;
 
 import java.util.List;
 

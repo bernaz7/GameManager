@@ -1,6 +1,5 @@
 package com.example.gamemanager.ui.polls;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -21,11 +19,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.Model;
 import com.example.gamemanager.model.Poll;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class PollsListFragment extends Fragment {
 
     private PollsViewModel pollsViewModel;
@@ -92,7 +88,6 @@ public class PollsListFragment extends Fragment {
                     swipeRefresh.setRefreshing(true); // already have progressbar while loading
                     break;
                 case error:
-                    //TODO: display error msg
             }
         });
     }

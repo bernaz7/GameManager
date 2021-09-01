@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
-
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -94,7 +92,6 @@ public class GangsListFragment extends Fragment {
                     swipeRefresh.setRefreshing(true); // already have progressbar while loading
                     break;
                 case error:
-                    //TODO: display error msg
             }
         });
     }
@@ -119,14 +116,8 @@ public class GangsListFragment extends Fragment {
                     Navigation.findNavController(v).navigate(R.id.action_nav_gangs_to_gangInfoFragment, bundle);
                 }
             });
-//            imageV.setImageResource(R.drawable.download);
-            //TODO: gang image
-        }
 
-//        @Override
-//        public void onClick(View v) {
-//            Log.d("TAG","TEST"+v.findViewById(R.id.gangrow_name).findViewById(R.id.gangrow_name));
-//        }
+        }
     }
 
     class GangAdapter extends RecyclerView.Adapter<GangViewHolder> {

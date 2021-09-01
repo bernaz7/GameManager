@@ -25,7 +25,6 @@ public class UserData {
     public Long lastUpdated;
     public Boolean isDeleted;
     public String imageUrl;
-    // TODO: add image for user.
 
     final static String ID = "id";
     final static String FULLNAME = "fullname";

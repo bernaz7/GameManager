@@ -88,7 +88,6 @@ public class GamesListFragment extends Fragment {
                     swipeRefresh.setRefreshing(true); // already have progressbar while loading
                     break;
                 case error:
-                    //TODO: display error msg
             }
         });
     }

@@ -3,7 +3,6 @@ package com.example.gamemanager.model;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;

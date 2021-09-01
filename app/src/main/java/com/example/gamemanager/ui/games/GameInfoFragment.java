@@ -76,6 +76,47 @@ public class GameInfoFragment extends Fragment {
         locationTv.setText(game.getLocation());
 
         joinBtn = root.findViewById(R.id.gameinfo_join_btn);
+
+        if(!game.users.contains(navEmail.getText().toString()))
+        {
+            joinBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    game.addUser(navEmail.getText().toString());
+                    new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
+                            .setTitleText("Joined game successfully!")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            })
+                            .show();
+                    joinBtn.setEnabled(false);
+
+                    saveGame();
+                }
+            });
+        }
+        else
+        {
+            joinBtn.setText("Leave Game");
+            joinBtn.setBackgroundColor(getResources().getColor(R.color.red_btn_bg_pressed_color));
+            joinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    game.removeUser(navEmail.getText().toString());
+                    joinBtn.setEnabled(false);
+
+                    saveGame();
+                }
+            });
+
+        }
+
+
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

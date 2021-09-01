@@ -84,13 +84,15 @@
 
         <Button
             android:id="@+id/pollinfo_endpoll_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="194dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/black"
             android:text="End Poll"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pollinfo_endpoll_btn"
+            app:layout_constraintTop_toBottomOf="@id/pollinfo_creategame_btn"
             />
 
         <Button

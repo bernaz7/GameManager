@@ -109,5 +109,10 @@
     <fragment
         android:id="@+id/newGameFragment"
         android:name="com.example.gamemanager.ui.games.NewGameFragment"
-        android:label="fragment_new_game" />
+        android:label="fragment_new_game" >
+        <argument
+            android:name="date"
+            app:argType="string"
+            android:defaultValue="none" />
+    </fragment>
 </navigation>

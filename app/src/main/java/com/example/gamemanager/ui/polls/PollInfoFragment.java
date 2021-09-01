@@ -100,7 +100,7 @@ public class PollInfoFragment extends Fragment {
         endPollBtn = root.findViewById(R.id.pollinfo_endpoll_btn);
         createGameBtn = root.findViewById(R.id.pollinfo_creategame_btn);
 
-        //if manager no matter what (for delete and create game btns)
+        //if manager no matter what (for delete, endpoll and create game btns)
         if(navEmail.getText().toString().compareTo(poll.getManager()) == 0)
         {
             deleteBtn.setVisibility(View.VISIBLE);
@@ -121,16 +121,6 @@ public class PollInfoFragment extends Fragment {
                                 })
                                 .show();
                     });
-                }
-            });
-
-            createGameBtn.setVisibility(View.VISIBLE);
-            createGameBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("usersList",poll.get);
-                    Navigation.findNavController(v).navigate(R.id.action_pollInfoFragment_to_newGameFragment,bundle);
                 }
             });
 
@@ -214,6 +204,21 @@ public class PollInfoFragment extends Fragment {
                 if(poll.votes.get(i) > poll.votes.get(winnerDate))
                     winnerDate = i;
             }
+
+            if (navEmail.getText().equals(poll.getManager())) { // if manager
+                createGameBtn.setVisibility(View.VISIBLE);
+                int finalWinnerDate = winnerDate;
+                createGameBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        String[] s = pollOptionViews[finalWinnerDate].getText().toString().split("\n");
+                        bundle.putString("date",s[1]);
+                        Navigation.findNavController(v).navigate(R.id.action_pollInfoFragment_to_newGameFragment,bundle);
+                    }
+                });
+            }
+
             pollOptionViews[winnerDate].setBackgroundColor(getResources().getColor(R.color.orange));
             voteBtn.setText("Back");
             voteBtn.setOnClickListener(new View.OnClickListener() {

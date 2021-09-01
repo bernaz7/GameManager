@@ -86,37 +86,62 @@ public class NewGameFragment extends Fragment {
         int mDay = c.get(Calendar.DAY_OF_MONTH);
         int mHour = c.get(Calendar.HOUR_OF_DAY);
         int mMinute = c.get(Calendar.MINUTE);
-        datePickerDialog = new DatePickerDialog(view.getContext(),
-                new DatePickerDialog.OnDateSetListener() {
+        if(getArguments().getString("date").compareTo("none") == 0) {
+            datePickerDialog = new DatePickerDialog(view.getContext(),
+                    new DatePickerDialog.OnDateSetListener() {
 
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
 
-                        date = String.format("%02d-%02d-%02d",year,monthOfYear+1,dayOfMonth);
+                            date = String.format("%02d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                            timePickerDialog.show();
+                        }
+                    }, mYear, mMonth, mDay);
+
+            timePickerDialog = new TimePickerDialog(view.getContext(),
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            time = String.format("%02d:%02d", hourOfDay, minute);
+                            timeText.setText("Date: " + date + ", Time: " + time);
+                        }
+                    }, mHour, mMinute, false);
+
+            timeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus)
+                        datePickerDialog.show();
+                }
+            });
+        }
+        else {
+            date = getArguments().getString("date");
+            timeText.setText("Date: "+ date + ", choose time");
+            timePickerDialog = new TimePickerDialog(view.getContext(),
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            time = String.format("%02d:%02d", hourOfDay, minute);
+                            timeText.setText("Date: " + date + ", Time: " + time);
+                        }
+                    }, mHour, mMinute, false);
+
+            timeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus)
                         timePickerDialog.show();
-                    }
-                }, mYear, mMonth, mDay);
+                }
+            });
+        }
 
-        timePickerDialog = new TimePickerDialog(view.getContext(),
-                new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        time = String.format("%02d:%02d", hourOfDay, minute);
-                        timeText.setText("Date: "+date+", Time: "+time);
-                    }
-                }, mHour, mMinute, false);
-
-        timeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                    datePickerDialog.show();
-            }
-        });
 
         createBtn = view.findViewById(R.id.newgame_save_btn);
         createBtn.setOnClickListener(new View.OnClickListener() {

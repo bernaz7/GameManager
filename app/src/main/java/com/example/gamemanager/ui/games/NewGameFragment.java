@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class NewGameFragment extends Fragment {
     TimePickerDialog timePickerDialog;
     String date;
     String time;
+    ProgressBar progBar;
 
 
 
@@ -73,6 +75,8 @@ public class NewGameFragment extends Fragment {
         nameText = view.findViewById(R.id.newgame_name_text);
         timeText = view.findViewById(R.id.newgame_time_text);
         locationText = view.findViewById(R.id.newgame_location_text);
+
+        progBar = view.findViewById(R.id.newgame_progbar);
 
         nameText.setText(navEmail.getText().toString() + "'s Game");
 
@@ -121,6 +125,7 @@ public class NewGameFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
+                progBar.setVisibility(View.VISIBLE);
                 createBtn.setEnabled(false);
                 saveGame();
             }
@@ -135,11 +140,15 @@ public class NewGameFragment extends Fragment {
         game.setId(uniqueId);
         game.setName(nameText.getText().toString());
         game.setManager(navEmail.getText().toString());
-        game.addUser(navEmail.getText().toString());
         game.setTime(time);
         game.setDate(date);
         game.setLocation(locationText.getText().toString());
-        //game.setUsers();
+
+        if(getArguments().getStringArrayList("usersList") != null) {
+            game.setUsers(getArguments().getStringArrayList("usersList"));
+        }
+        game.addUser(navEmail.getText().toString());
+
         Model.instance.saveGame(game, ()-> {
             Navigation.findNavController(view).navigateUp();
         });

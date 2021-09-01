@@ -22,19 +22,62 @@
             android:hint="Gang Name:"
             android:inputType="text"
             android:singleLine="true"
+            android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ganginfo_members_text"
+            android:layout_width="375dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:autofillHints=""
+            android:inputType="text"
+            android:text="Members:"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ganginfo_name_text"
+            app:layout_constraintBottom_toTopOf="@id/ganginfo_user_listv"/>
+
+        <ListView
+            android:id="@+id/ganginfo_user_listv"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            app:layout_constraintTop_toBottomOf="@+id/ganginfo_members_text"
+            app:layout_constraintBottom_toTopOf="@id/ganginfo_save_btn"/>
 
         <Button
             android:id="@+id/ganginfo_save_btn"
             android:layout_width="194dp"
             android:layout_height="50dp"
             android:text="Save"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ganginfo_name_text" />
+            app:layout_constraintTop_toBottomOf="@+id/ganginfo_user_listv"
+            />
+
+        <Button
+            android:id="@+id/ganginfo_creategame_btn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/orange"
+            android:textColor="@color/black"
+            android:text="Create Game"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ganginfo_save_btn" />
 
         <Button
             android:id="@+id/ganginfo_delete_btn"
@@ -47,7 +90,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ganginfo_save_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/ganginfo_creategame_btn" />
 
         <ProgressBar
             android:id="@+id/ganginfo_progbar"

@@ -68,6 +68,7 @@ public class NewGangFragment extends Fragment {
         gang.setId(uniqueId);
         gang.setName(nameEt.getText().toString());
         gang.setManager(navEmail.getText().toString());
+        gang.addMember(navEmail.getText().toString());
         Model.instance.saveGang(gang, ()-> {
             Navigation.findNavController(view).navigateUp();
         });

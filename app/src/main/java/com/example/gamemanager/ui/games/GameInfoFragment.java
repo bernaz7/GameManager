@@ -153,17 +153,20 @@ public class GameInfoFragment extends Fragment {
 
             TextView nameTv = convertView.findViewById(R.id.userrow_user_text);
             ImageView imageV = convertView.findViewById(R.id.userrow_imagev);
+            Button mgrBtn = convertView.findViewById(R.id.userrow_manager_btn);
             String user = game.getUsers().get(position);
             UserData userData = Model.instance.getUserDataByEmail(user);
 
             nameTv.setText(user);
-            //imageV.setImageResource(R.drawable.download);
 
             if(userData.imageUrl != null && userData.imageUrl != "") {
                 Picasso.get().load(userData.imageUrl).placeholder(R.drawable.download)
                         .error(R.drawable.download).into(imageV);
             }
 
+            if(user.compareTo(game.getManager()) == 0) {
+                mgrBtn.setVisibility(View.VISIBLE);
+            }
 
             return convertView;
         }

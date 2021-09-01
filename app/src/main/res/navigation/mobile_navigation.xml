@@ -85,6 +85,9 @@
         android:name="com.example.gamemanager.ui.gangs.GangInfoFragment"
         android:label="fragment_gang_info"
         tools:layout="@layout/fragment_gang_info" >
+        <action
+            android:id="@+id/action_gangInfoFragment_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/pollInfoFragment"

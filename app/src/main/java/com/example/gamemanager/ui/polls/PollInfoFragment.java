@@ -1,12 +1,10 @@
 package com.example.gamemanager.ui.polls;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,8 +23,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.time.LocalDate;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class PollInfoFragment extends Fragment {
     Poll poll;
@@ -92,7 +88,7 @@ public class PollInfoFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
 
         nameTv = root.findViewById(R.id.pollinfo_name_text);
         voteBtn = root.findViewById(R.id.pollinfo_vote_btn);

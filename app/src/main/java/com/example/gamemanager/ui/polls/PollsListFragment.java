@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -54,7 +53,7 @@ public class PollsListFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
 
         list = root.findViewById(R.id.polllist_recyclerv);
         list.setHasFixedSize(true);

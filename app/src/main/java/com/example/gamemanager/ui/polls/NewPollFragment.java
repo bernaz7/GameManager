@@ -65,7 +65,7 @@ public class NewPollFragment extends Fragment {
         CalendarUtils.selectedDate = LocalDate.now();
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
         monthYearText = view.findViewById(R.id.newpoll_monthYear_tv);
 
         sunNum = view.findViewById(R.id.newpoll_sun_num);

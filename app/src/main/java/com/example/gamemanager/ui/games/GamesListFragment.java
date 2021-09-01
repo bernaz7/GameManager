@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,14 +18,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.Game;
 import com.example.gamemanager.model.Model;
-import com.example.gamemanager.ui.polls.PollsListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 
 public class GamesListFragment extends Fragment {
 
@@ -54,7 +50,7 @@ public class GamesListFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
 
         list = root.findViewById(R.id.gamelist_recyclerv);
         list.setHasFixedSize(true);

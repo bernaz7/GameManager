@@ -2,7 +2,6 @@ package com.example.gamemanager.ui.games;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +14,14 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.navigation.Navigation;
 
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.Game;
-import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
 import com.example.gamemanager.model.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -65,7 +60,7 @@ public class GameInfoFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
 
         titleTv = root.findViewById(R.id.gameinfo_name_text);
         timeTv = root.findViewById(R.id.gameinfo_time_text);

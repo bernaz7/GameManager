@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gamemanager.R;
-import com.example.gamemanager.model.Model;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeFragment extends Fragment {
@@ -28,7 +27,7 @@ public class HomeFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
         homeTv = root.findViewById(R.id.home_tv);
         Menu navMenu = navigationView.getMenu();
 

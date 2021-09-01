@@ -45,7 +45,7 @@ public class NewGangFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

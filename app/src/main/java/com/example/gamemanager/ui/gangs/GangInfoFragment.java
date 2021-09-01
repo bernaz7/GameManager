@@ -19,16 +19,13 @@ import android.widget.TextView;
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.Gang;
 import com.example.gamemanager.model.Model;
-import com.example.gamemanager.model.ModelFirebase;
 import com.example.gamemanager.model.UserData;
-import com.example.gamemanager.ui.games.GameInfoFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static com.example.gamemanager.model.Gang.uniqueId;
 
 public class GangInfoFragment extends Fragment {
     Gang gang;
@@ -62,7 +59,7 @@ public class GangInfoFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
         nameTv = root.findViewById(R.id.ganginfo_name_text);
         saveBtn = root.findViewById(R.id.ganginfo_save_btn);
         deleteBtn = root.findViewById(R.id.ganginfo_delete_btn);

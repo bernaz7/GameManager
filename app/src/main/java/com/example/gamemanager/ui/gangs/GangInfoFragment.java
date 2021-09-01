@@ -23,6 +23,8 @@ import com.example.gamemanager.model.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -115,17 +117,52 @@ public class GangInfoFragment extends Fragment {
         }
         else { // if not manager
             nameTv.setText(gang.getName().toString());
-//            nameTv.setVisibility(View.INVISIBLE);
-            saveBtn.setText("Join Gang");
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    gang.addMember(navEmail.getText().toString());
-                    saveGang();
-                }
-            });
-        }
 
+            if (!gang.getMembers().contains(navEmail.getText().toString())) {
+                saveBtn.setText("Join Gang");
+                saveBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gang.addMember(navEmail.getText().toString());
+                        new SweetAlertDialog(getActivity())
+                                .setTitleText("")
+                                .setContentText("Joined gang!")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        saveGang();
+                    }
+                });
+            } else {
+                saveBtn.setText("Leave gang");
+                saveBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        gang.removeMember(navEmail.getText().toString());
+                        ArrayList<String> tempMembers = gang.getMembers();
+                        tempMembers.remove(navEmail.getText().toString());
+                        gang.setMembers(tempMembers);
+                        new SweetAlertDialog(getActivity())
+                                .setTitleText("")
+                                .setContentText("Left Gang!")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        saveGang();
+                    }
+                });
+            }
+        }
         return root;
     }
 
@@ -175,6 +212,7 @@ public class GangInfoFragment extends Fragment {
 
     private void saveGang() {
         gang.setName(nameTv.getText().toString());
+        gang.setMembers(gang.members);
         Model.instance.saveGang(gang, ()-> {
             Navigation.findNavController(root).navigateUp();
         });

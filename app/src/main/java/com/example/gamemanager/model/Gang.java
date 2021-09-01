@@ -95,6 +95,11 @@ public class Gang implements Serializable {
             this.members.add(memberEmail.toString());
     }
 
+    public void removeMember(String memberEmail) {
+        if(!this.members.contains(memberEmail.toString()))
+            this.members.remove(memberEmail.toString());
+    }
+
     public Map<String,Object> toJson(){
         Map<String, Object> json = new HashMap<>();
         json.put(ID, id);

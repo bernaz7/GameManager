@@ -111,45 +111,11 @@ public class GameInfoFragment extends Fragment {
 
         }
 
-
-        joinBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!game.users.contains(navEmail.getText().toString())) {
-                    game.users.add(navEmail.getText().toString());
-                    new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
-                            .setTitleText("Joined game successfully!")
-                            .setConfirmText("OK")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                }
-                            })
-                            .show();
-                }
-                else {
-                    new SweetAlertDialog(getActivity()) // https://ourcodeworld.com/articles/read/928/how-to-use-sweet-alert-dialogs-in-android
-                            .setTitleText("You've already joined this game!")
-                            .setConfirmText("OK")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                }
-                            })
-                            .show();
-                }
-                joinBtn.setEnabled(false);
-
-                saveGame();
-            }
-        });
-
         deleteBtn = root.findViewById(R.id.gameinfo_delete_btn);
         // if manager
         if (navEmail.getText().toString().compareTo(game.getManager().toString()) == 0)
         {
+            joinBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.VISIBLE);
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

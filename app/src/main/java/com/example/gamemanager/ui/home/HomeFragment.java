@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -29,8 +30,12 @@ public class HomeFragment extends Fragment {
         emailView = navigationView.getHeaderView(0);
         navEmail = (TextView)emailView.findViewById(R.id.textView);
         homeTv = root.findViewById(R.id.home_tv);
+        Menu navMenu = navigationView.getMenu();
 
         if(navEmail.getText().toString() == getString(R.string.anon_user)) {
+            navMenu.findItem(R.id.nav_games).setVisible(false);
+            navMenu.findItem(R.id.nav_polls).setVisible(false);
+            navMenu.findItem(R.id.nav_gangs).setVisible(false);
 
             homeTv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -40,7 +45,11 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+
         else {
+            navMenu.findItem(R.id.nav_games).setVisible(true);
+            navMenu.findItem(R.id.nav_polls).setVisible(true);
+            navMenu.findItem(R.id.nav_gangs).setVisible(true);
             homeTv.setText(R.string.home_welcome);
         }
         return root;

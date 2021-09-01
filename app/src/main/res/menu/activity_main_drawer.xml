@@ -10,15 +10,15 @@
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_gangs"
-            android:icon="@drawable/ic_menu_gangs"
+            android:icon="@drawable/group_black"
             android:title="@string/menu_gangs" />
         <item
             android:id="@+id/nav_games"
-            android:icon="@drawable/ic_menu_games"
+            android:icon="@drawable/game_black"
             android:title="@string/menu_games" />
         <item
             android:id="@+id/nav_polls"
-            android:icon="@drawable/ic_menu_polls"
+            android:icon="@drawable/poll_black"
             android:title="@string/menu_polls" />
     </group>
 </menu>

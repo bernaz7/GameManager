@@ -2,11 +2,6 @@ package com.example.gamemanager.ui.authentication;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -16,15 +11,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.gamemanager.R;
 import com.example.gamemanager.model.ModelFirebase;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -63,7 +56,7 @@ public class AuthLoginFragment extends Fragment {
 
         navigationView =  getActivity().findViewById(R.id.nav_view);
         emailView = navigationView.getHeaderView(0);
-        navEmail = (TextView)emailView.findViewById(R.id.textView);
+        navEmail = (TextView)emailView.findViewById(R.id.drawer_user_text);
 
 
         progressDialog = new ProgressDialog(root.getContext());

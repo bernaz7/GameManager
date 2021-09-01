@@ -7,25 +7,42 @@
 
     <fragment
         android:id="@+id/nav_gangs"
-        android:name="com.example.gamemanager.ui.gangs.GangsFragment"
+        android:name="com.example.gamemanager.ui.gangs.GangsListFragment"
         android:label="@string/menu_gangs"
-        tools:layout="@layout/fragment_gangs" >
+        tools:layout="@layout/fragment_gangs_list" >
         <action
             android:id="@+id/action_newgangfragment_open"
             app:destination="@id/newGangFragment" />
+        <action
+            android:id="@+id/action_nav_gangs_to_gangInfoFragment"
+            app:destination="@id/gangInfoFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_games"
-        android:name="com.example.gamemanager.ui.games.GamesFragment"
+        android:name="com.example.gamemanager.ui.games.GamesListFragment"
         android:label="@string/menu_games"
-        tools:layout="@layout/fragment_games" />
+        tools:layout="@layout/fragment_games_list" >
+        <action
+            android:id="@+id/action_nav_games_to_gameInfoFragment"
+            app:destination="@id/gameInfoFragment" />
+        <action
+            android:id="@+id/action_nav_games_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_polls"
-        android:name="com.example.gamemanager.ui.polls.PollsFragment"
+        android:name="com.example.gamemanager.ui.polls.PollsListFragment"
         android:label="@string/menu_polls"
-        tools:layout="@layout/fragment_polls" />
+        tools:layout="@layout/fragment_polls_list" >
+        <action
+            android:id="@+id/action_nav_polls_to_pollInfoFragment"
+            app:destination="@id/pollInfoFragment" />
+        <action
+            android:id="@+id/action_nav_polls_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newGangFragment"
         android:name="com.example.gamemanager.ui.gangs.NewGangFragment"
@@ -62,5 +79,40 @@
         <action
             android:id="@+id/action_homeFragment_to_authLoginFragment"
             app:destination="@id/authLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gangInfoFragment"
+        android:name="com.example.gamemanager.ui.gangs.GangInfoFragment"
+        android:label="fragment_gang_info"
+        tools:layout="@layout/fragment_gang_info" >
+        <action
+            android:id="@+id/action_gangInfoFragment_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pollInfoFragment"
+        android:name="com.example.gamemanager.ui.polls.PollInfoFragment"
+        android:label="fragment_poll_info" >
+        <action
+            android:id="@+id/action_pollInfoFragment_to_newGameFragment"
+            app:destination="@id/newGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPollFragment"
+        android:name="com.example.gamemanager.ui.polls.NewPollFragment"
+        android:label="fragment_new_poll"
+        tools:layout="@layout/fragment_new_poll" />
+    <fragment
+        android:id="@+id/gameInfoFragment"
+        android:name="com.example.gamemanager.ui.games.GameInfoFragment"
+        android:label="fragment_game_info" />
+    <fragment
+        android:id="@+id/newGameFragment"
+        android:name="com.example.gamemanager.ui.games.NewGameFragment"
+        android:label="fragment_new_game" >
+        <argument
+            android:name="date"
+            app:argType="string"
+            android:defaultValue="none" />
     </fragment>
 </navigation>

@@ -1,7 +1,6 @@
 package com.example.gamemanager.ui.gangs;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gamemanager.model.Gang;
